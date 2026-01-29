@@ -4,33 +4,38 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pedido especial</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
   <style>
     :root{--purple:#8b5cf6;--purple2:#a78bfa;--accent:#ff4d6d}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:#000}
     body{display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .stage{position:fixed;inset:0;background-image:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg');background-size:cover;background-position:center;filter:contrast(1.08) saturate(1.05)}
-    .stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.22))}
-    .wrap{position:relative;z-index:2;width:100%;max-width:920px;margin:28px;padding:28px;border-radius:24px;background:rgba(0,0,0,0.18);backdrop-filter:blur(4px);box-shadow:0 40px 120px rgba(0,0,0,0.6)}
-    h1{font-family:Cinzel,serif;margin:0;font-size:36px;text-align:center;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.7)}
-    .question{margin-top:12px;text-align:center;font-size:22px;color:rgba(255,255,255,.94);font-weight:600}
-    .controls{margin-top:28px;display:flex;justify-content:center}
-    .frame{width:360px;border-radius:18px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.06);box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
-    .btn{display:block;width:100%;padding:16px 0;border-radius:12px;border:0;font-size:20px;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
-    #yes{background:linear-gradient(90deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 18px 46px rgba(139,92,246,.28)}
+    .stage{position:fixed;inset:0;background-image:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg');background-size:cover;background-position:center;filter:contrast(1.06) saturate(1.04)}
+    .stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.18))}
+    .wrap{position:relative;z-index:2;width:100%;max-width:920px;margin:28px;padding:28px;border-radius:20px;background:rgba(0,0,0,0.14);backdrop-filter:blur(4px);box-shadow:0 40px 120px rgba(0,0,0,0.6)}
+    h1{font-family:Cinzel,serif;margin:0;font-size:34px;text-align:center;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.7)}
+    .question{margin-top:10px;text-align:center;font-size:20px;color:rgba(255,255,255,.96);font-weight:600}
+    .controls{margin-top:26px;display:flex;justify-content:center}
+    .frame{width:360px;border-radius:18px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);position:relative}
+    .btn{display:block;width:100%;padding:14px 0;border-radius:12px;border:0;font-size:20px;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;position:absolute;left:0}
+    #yes{top:12px;background:linear-gradient(90deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 20px 60px rgba(139,92,246,.28)}
     #yes:active{transform:translateY(2px)}
-    #no{margin-top:18px;background:rgba(255,255,255,0.06);color:#fff;border:2px solid rgba(255,255,255,0.08)}
+    #no{background:rgba(255,255,255,0.06);color:#fff;border:2px solid rgba(255,255,255,0.08)}
     .effects{position:fixed;inset:0;pointer-events:none;z-index:40}
     .heart{position:absolute;width:16px;height:16px;transform:rotate(-45deg)}
     .heart:before,.heart:after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:linear-gradient(180deg,#ff9aa2,#ff4d6d)}
     .conf{position:absolute;width:12px;height:16px;border-radius:3px}
-    @media(max-width:520px){.frame{width:86vw;padding:14px}.wrap{padding:18px;border-radius:16px}h1{font-size:28px}.question{font-size:18px}}
+    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);opacity:0;pointer-events:none;transition:opacity .28s}
+    .overlay.show{opacity:1;pointer-events:auto}
+    .modal{padding:28px 32px;border-radius:18px;background:rgba(0,0,0,.7);text-align:center}
+    .modal h2{font-family:Cinzel,serif;margin:0 0 8px;color:var(--accent)}
+    .modal p{margin:0;font-size:20px}
+    @media(max-width:520px){.frame{width:86vw;padding:12px}.wrap{padding:18px;border-radius:12px}h1{font-size:28px}.question{font-size:18px}}
   </style>
 </head>
 <body>
   <div class="stage" aria-hidden="true"></div>
-  <div class="wrap">
+  <div class="wrap" role="main">
     <h1>Pedido especial</h1>
     <div class="question">Tifa, <strong>você aceita namorar comigo?</strong></div>
     <div class="controls">
@@ -41,6 +46,13 @@
     </div>
   </div>
 
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h2>ebaeba 💕</h2>
+      <p>eu te amo, meu amor!</p>
+    </div>
+  </div>
+
   <div class="effects" id="effects"></div>
 
   <audio id="audio" preload="auto" loop playsinline>
@@ -48,79 +60,80 @@
   </audio>
 
   <script>
-    const yes=document.getElementById('yes');
-    const no=document.getElementById('no');
-    const frame=document.getElementById('frame');
-    const effects=document.getElementById('effects');
-    const audio=document.getElementById('audio');
-    let unlocked=false;
-    function unlockAudio(){
-      if(unlocked) return;
-      unlocked=true;
-      audio.muted=true;
-      audio.play().then(()=>{
-        setTimeout(()=>{ audio.muted=false; }, 200);
-      }).catch(()=>{});
-      document.removeEventListener('pointerdown', unlockAudio);
-    }
-    document.addEventListener('pointerdown', unlockAudio, { once:true });
+    const yes = document.getElementById('yes');
+    const no = document.getElementById('no');
+    const frame = document.getElementById('frame');
+    const effects = document.getElementById('effects');
+    const overlay = document.getElementById('overlay');
+    const audio = document.getElementById('audio');
 
-    function initLayout(){
-      const w=frame.clientWidth;
+    let firstNo = true;
+    let unlocked = false;
+
+    function placeInitial(){
+      const gap = 18;
       yes.style.width = '100%';
       no.style.width = '100%';
-      yes.style.top = '12px';
-      no.style.top = (yes.offsetHeight + 20) + 'px';
+      yes.style.top = gap + 'px';
+      const noTop = yes.offsetHeight + gap*2;
+      no.style.top = noTop + 'px';
+      // ensure frame height at least fits both
+      const needed = no.offsetTop + no.offsetHeight + gap;
+      if(frame.clientHeight < needed) frame.style.height = (needed) + 'px';
     }
 
     function moveNo(){
-      const padding=12;
-      const fw=frame.clientWidth - no.offsetWidth - padding;
+      const padding = 12;
+      const minY = yes.offsetHeight + padding*2;
       const maxY = frame.clientHeight - no.offsetHeight - padding;
-      const minY = yes.offsetHeight + 12;
-      const x = padding;
-      const y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
-      no.style.transform = 'translateY(' + (y - parseInt(no.style.top||0)) + 'px)';
+      if(maxY <= minY) return; // nothing to do
+      const y = Math.floor(Math.random()*(maxY - minY + 1)) + minY;
       no.style.top = y + 'px';
-    }
-
-    function spawnBurst(){
-      spawnHearts(36); spawnConfetti(100);
     }
 
     function spawnHearts(n){
       for(let i=0;i<n;i++){
-        const h=document.createElement('div'); h.className='heart';
-        h.style.left = (10 + Math.random()*80) + '%';
-        h.style.top = (60 + Math.random()*30) + '%';
+        const h = document.createElement('div'); h.className='heart';
+        h.style.left = (8 + Math.random()*84) + '%';
+        h.style.top = (62 + Math.random()*28) + '%';
         effects.appendChild(h);
         const dur = 2000 + Math.random()*1600;
-        h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-140%) scale(1.2)',opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish = ()=>h.remove();
+        h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-150%) scale(1.15)',opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish = ()=>h.remove();
       }
     }
 
     function spawnConfetti(n){
       const colors = ['#8b5cf6','#a78bfa','#ff4d6d','#ffd166','#7bdff2'];
       for(let i=0;i<n;i++){
-        const c=document.createElement('div'); c.className='conf'; c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        const c = document.createElement('div'); c.className='conf'; c.style.background = colors[Math.floor(Math.random()*colors.length)];
         c.style.left = Math.random()*100 + '%'; c.style.top = '-6%'; effects.appendChild(c);
         const rot = Math.random()*360; const dur = 2800 + Math.random()*2000;
         c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish = ()=>c.remove();
       }
     }
 
-    yes.addEventListener('click',async ()=>{
-      spawnBurst();
-      try{ audio.currentTime = 0; await audio.play(); }catch(e){}
-    });
-      try{await audio.play()}catch(e){}
-    });
+    async function openCelebration(){
+      overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+      spawnHearts(50); spawnConfetti(160);
+      try{ audio.currentTime = 0; await audio.play(); }catch(e){ /* ignore */ }
+    }
 
-    no.addEventListener('mouseenter',()=>{moveNo()});
-    no.addEventListener('touchstart',(e)=>{e.preventDefault(); moveNo()});
+    function unlockAudio(){
+      if(unlocked) return; unlocked = true;
+      audio.muted = true;
+      audio.play().then(()=>{ setTimeout(()=>{ audio.muted = false; }, 250); }).catch(()=>{});
+      document.removeEventListener('pointerdown', unlockAudio);
+    }
+    document.addEventListener('pointerdown', unlockAudio, {passive:true});
 
-    window.addEventListener('load', ()=>{initLayout(); setTimeout(()=>{no.style.top = (yes.offsetHeight + 20) + 'px';},50)});
-    window.addEventListener('resize', initLayout);
+    no.addEventListener('mouseenter', moveNo);
+    no.addEventListener('touchstart', e=>{ e.preventDefault(); moveNo(); }, {passive:false});
+    no.addEventListener('click', e=>{ e.preventDefault(); if(firstNo){ alert('pensa melhor'); firstNo = false; } moveNo(); });
+
+    yes.addEventListener('click', ()=>{ openCelebration(); });
+
+    window.addEventListener('load', ()=>{ placeInitial(); setTimeout(()=>{ moveNo(); },120); });
+    window.addEventListener('resize', ()=>{ placeInitial(); });
   </script>
 </body>
 </html>
