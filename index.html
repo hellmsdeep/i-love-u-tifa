@@ -94,12 +94,17 @@
     function spawnHearts(n){
       for(let i=0;i<n;i++){
         const h = document.createElement('div'); h.className='heart';
-        h.style.left = (8 + Math.random()*84) + '%';
-        h.style.top = (62 + Math.random()*28) + '%';
+        h.style.left = (5 + Math.random()*90) + '%';
+        h.style.top = (60 + Math.random()*35) + '%';
         effects.appendChild(h);
-        const dur = 2000 + Math.random()*1600;
-        h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-150%) scale(1.15)',opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish = ()=>h.remove();
+        const dur = 2200 + Math.random()*1800;
+        const drift = (Math.random()*80 - 40);
+        h.animate([
+          {transform:'translate(0,0) scale(.8)',opacity:1},
+          {transform:`translate(${drift}px,-160%) scale(1.25)`,opacity:0}
+        ],{duration:dur,easing:'cubic-bezier(.15,.85,.15,1)'}).onfinish = ()=>h.remove();
       }
+    }
     }
 
     function spawnConfetti(n){
@@ -114,8 +119,12 @@
 
     async function openCelebration(){
       overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
-      spawnHearts(50); spawnConfetti(160);
-      try{ audio.currentTime = 0; await audio.play(); }catch(e){ /* ignore */ }
+      spawnHearts(120);
+      spawnConfetti(220);
+      setTimeout(()=>spawnHearts(80),300);
+      setTimeout(()=>spawnHearts(60),700);
+      try{ audio.currentTime = 0; await audio.play(); }catch(e){}
+    }
     }
 
     function unlockAudio(){
