@@ -53,6 +53,17 @@
     const frame=document.getElementById('frame');
     const effects=document.getElementById('effects');
     const audio=document.getElementById('audio');
+    let unlocked=false;
+    function unlockAudio(){
+      if(unlocked) return;
+      unlocked=true;
+      audio.muted=true;
+      audio.play().then(()=>{
+        setTimeout(()=>{ audio.muted=false; }, 200);
+      }).catch(()=>{});
+      document.removeEventListener('pointerdown', unlockAudio);
+    }
+    document.addEventListener('pointerdown', unlockAudio, { once:true });
 
     function initLayout(){
       const w=frame.clientWidth;
@@ -100,6 +111,8 @@
 
     yes.addEventListener('click',async ()=>{
       spawnBurst();
+      try{ audio.currentTime = 0; await audio.play(); }catch(e){}
+    });
       try{await audio.play()}catch(e){}
     });
 
