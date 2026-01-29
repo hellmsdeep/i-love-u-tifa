@@ -3,159 +3,97 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pedido especial • Tifa</title>
+  <title>Pedido especial</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{--accent:#ff3b6a;--accent-2:#ff8aa0;--gold:#ffd166;--glass:rgba(255,255,255,0.06)}
+    :root{--accent:#ff3b6a;--accent2:#ff8aa0;--gold:#ffd166}
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,-apple-system,'Helvetica Neue',Arial}
-    body{display:flex;align-items:center;justify-content:center;background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover fixed no-repeat;color:#fff}
-    body::after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.72))}
-    .wrap{position:relative;z-index:1;width:100%;max-width:980px;margin:36px;padding:28px;border-radius:20px;background:linear-gradient(180deg,rgba(10,10,12,0.32),rgba(10,10,12,0.18));box-shadow:0 30px 90px rgba(2,6,23,0.75);backdrop-filter: blur(8px)}
-    header{display:flex;align-items:center;gap:18px}
-    .logo{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:22px}
-    h1{margin:0;font-family:'Cinzel',serif;font-size:30px;color:var(--gold)}
-    p.lead{margin:8px 0 22px;font-size:18px;opacity:.95}
-    .card{position:relative;padding:20px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
-    .actions{position:relative;height:240px;display:flex;align-items:flex-start;justify-content:center}
-    .btn-row{position:relative;width:100%;max-width:560px;height:160px}
-    button{cursor:pointer;border:0;border-radius:14px;padding:14px 36px;font-weight:700;font-size:18px;letter-spacing:.2px}
-    #yes{position:absolute;left:50%;transform:translateX(-50%);top:20px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 14px 36px rgba(255,60,106,0.14)}
-    #no{position:absolute;left:50%;transform:translateX(-50%);top:110px;background:transparent;border:2px solid rgba(255,255,255,0.14);color:#fff}
-    .meta{display:flex;justify-content:center;gap:12px;margin-top:18px}
-    .hint{font-size:13px;opacity:.8}
-    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.85));opacity:0;pointer-events:none;transition:opacity .36s}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial}
+    body{display:flex;align-items:center;justify-content:center;background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover fixed no-repeat;color:#fff;overflow:hidden}
+    body::after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.75))}
+
+    .wrap{position:relative;z-index:1;width:100%;max-width:820px;margin:24px;padding:28px;border-radius:22px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);box-shadow:0 25px 80px rgba(0,0,0,.8)}
+    h1{margin:0 0 10px;text-align:center;font-family:Cinzel,serif;color:var(--gold);font-size:32px}
+    p{margin:0 0 30px;text-align:center;font-size:22px}
+
+    .actions{position:relative;height:220px;display:flex;justify-content:center}
+    .btn-area{position:relative;width:320px;height:200px}
+
+    button{border:0;border-radius:16px;padding:14px 0;width:100%;font-size:22px;font-weight:700;cursor:pointer}
+    #yes{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;position:absolute;top:30px;left:0}
+    #no{background:transparent;border:2px solid rgba(255,255,255,.35);color:#fff;position:absolute;top:120px;left:0}
+
+    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);opacity:0;pointer-events:none;transition:.35s}
     .overlay.show{opacity:1;pointer-events:auto}
-    .modal{padding:26px 34px;border-radius:18px;background:linear-gradient(180deg,rgba(15,15,16,0.6),rgba(12,12,13,0.5));text-align:center;max-width:720px}
-    .modal h2{margin:0 0 8px;font-family:'Cinzel',serif;font-size:30px;color:var(--accent)}
-    .modal p{margin:0;font-size:20px}
-    .controls{margin-top:16px;display:flex;gap:12px;justify-content:center}
-    .btn-ghost{background:transparent;border:2px solid rgba(255,255,255,0.08);padding:10px 16px;border-radius:10px;color:#fff}
-    .btn-primary{background:linear-gradient(90deg,#22c55e,#60d394);color:#062e16;border-radius:10px;padding:10px 16px;font-weight:700}
-    .hearts,.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}
-    .heart{position:absolute;width:14px;height:14px;transform:rotate(-45deg)}
-    .heart:before,.heart:after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:linear-gradient(180deg,#ff9aa2,#ff4d6d)}
-    .conf{position:absolute;width:10px;height:14px;border-radius:3px;opacity:.95}
-    footer{margin-top:14px;text-align:center;color:rgba(255,255,255,0.6);font-size:13px}
-    @media(max-width:640px){.wrap{margin:18px;padding:18px}.logo{width:58px;height:58px}.btn-row{max-width:420px}#yes{top:16px}#no{top:96px}}
+    .modal{text-align:center;padding:32px 36px;border-radius:20px;background:rgba(0,0,0,.7)}
+    .modal h2{margin:0 0 12px;font-family:Cinzel,serif;color:var(--accent);font-size:32px}
+    .modal p{margin:0;font-size:24px}
+
+    .hearts,.confetti{position:fixed;inset:0;pointer-events:none}
+    .heart{position:absolute;width:16px;height:16px;transform:rotate(-45deg)}
+    .heart:before,.heart:after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#ff4d6d}
+    .heart:before{top:-8px}
+    .heart:after{left:8px}
+    .conf{position:absolute;width:10px;height:14px;border-radius:3px}
   </style>
 </head>
 <body>
-  <div class="wrap" role="main">
-    <header>
-      <div class="logo">♥︎</div>
-      <div>
-        <h1>Pedido especial</h1>
-        <p class="lead">Tifa, você aceita namorar comigo?</p>
-      </div>
-    </header>
+  <div class="wrap">
+    <h1>Pedido especial</h1>
+    <p>Tifa, <strong>você aceita namorar comigo?</strong></p>
 
-    <div class="card" aria-hidden="false">
-      <div class="actions">
-        <div class="btn-row" id="area">
-          <button id="yes" aria-label="Aceitar">SIM — Aceito!</button>
-          <button id="no" aria-label="Recusar">NÃO</button>
-        </div>
+    <div class="actions">
+      <div class="btn-area" id="area">
+        <button id="yes">SIM 💖</button>
+        <button id="no">NÃO</button>
       </div>
-
-      <div class="meta"><div class="hint">Toque em SIM para confirmar • NÃO gosta de brincar 😉</div></div>
     </div>
-
-    <footer>feito com carinho</footer>
   </div>
 
-  <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true">
+  <div class="overlay" id="overlay">
+    <div class="modal">
       <h2>ebaeba 💕</h2>
       <p>eu te amo, meu amor!</p>
-      <div class="controls">
-        <button class="btn-primary" id="playAudio">🔊 Tocar música</button>
-        <button class="btn-ghost" id="closeModal">Fechar</button>
-      </div>
     </div>
   </div>
 
-  <div class="hearts" id="hearts" aria-hidden="true"></div>
-  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <div class="hearts" id="hearts"></div>
+  <div class="confetti" id="confetti"></div>
 
-  <div id="playerContainer" style="display:none"></div>
+  <audio id="audio" preload="auto" loop playsinline>
+    <source src="sienna.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    const yesBtn=document.getElementById('yes');
-    const noBtn=document.getElementById('no');
+    const yes=document.getElementById('yes');
+    const no=document.getElementById('no');
     const overlay=document.getElementById('overlay');
-    const closeModal=document.getElementById('closeModal');
-    const playAudio=document.getElementById('playAudio');
-    const heartsEl=document.getElementById('hearts');
-    const confettiEl=document.getElementById('confetti');
+    const hearts=document.getElementById('hearts');
+    const confetti=document.getElementById('confetti');
     const area=document.getElementById('area');
-    let firstNo=true;let player=null;let audioFallback=null;let started=false;
-
-    function placeButtonsInit(){
-      const areaW=area.clientWidth;const yesW=yesBtn.offsetWidth, noW=noBtn.offsetWidth;
-      const center=(areaW/2);
-      yesBtn.style.left=(center - yesW - 12) + 'px';
-      yesBtn.style.top='20px';
-      noBtn.style.left=(center + 12) + 'px';
-      noBtn.style.top='110px';
-    }
+    const audio=document.getElementById('audio');
+    let firstNo=true;
 
     function moveNo(){
-      const pad=12;const areaRect=area.getBoundingClientRect();
-      const yesRect=yesBtn.getBoundingClientRect();
-      const maxX=area.clientWidth - noBtn.offsetWidth - pad;
-      const minX=pad;
-      const minY=100; const maxY=area.clientHeight - noBtn.offsetHeight - pad;
-      let x,y;do{x = Math.random()*(maxX-minX)+minX; y = Math.random()*(maxY-minY)+minY;} while(intersects({x,y,width:noBtn.offsetWidth,height:noBtn.offsetHeight}, yesBtn));
-      noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
+      const maxY=area.clientHeight-no.offsetHeight-10;
+      const y=Math.random()*(maxY-120)+120;
+      no.style.top=y+'px';
     }
 
-    function intersects(pos, element){
-      const rect = element.getBoundingClientRect();
-      const left = rect.left - area.getBoundingClientRect().left;
-      const top = rect.top - area.getBoundingClientRect().top;
-      const buffer = 18;
-      const ax = pos.x, ay = pos.y, aw = pos.width, ah = pos.height;
-      const bx = left - buffer, by = top - buffer, bw = element.offsetWidth + buffer*2, bh = element.offsetHeight + buffer*2;
-      return !(ax + aw < bx || ax > bx + bw || ay + ah < by || ay > by + bh);
-    }
+    no.addEventListener('mouseenter',moveNo);
+    no.addEventListener('touchstart',e=>{e.preventDefault();moveNo()});
+    no.addEventListener('click',e=>{e.preventDefault();if(firstNo){alert('pensa melhor');firstNo=false}moveNo()});
 
-    noBtn.addEventListener('mouseenter', moveNo);
-    noBtn.addEventListener('touchstart', e=>{e.preventDefault(); moveNo();});
-    noBtn.addEventListener('click', e=>{e.preventDefault(); if(firstNo){alert('pensa melhor'); firstNo=false;} moveNo();});
-
-    yesBtn.addEventListener('click', async ()=>{
-      overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
-      spawnHearts(40); spawnConfetti(140);
-      if(started) return; started=true;
-      const mp3 = './sienna.mp3';
-      try{
-        audioFallback = new Audio(mp3);
-        audioFallback.loop = true;
-        await audioFallback.play();
-      }catch(e){
-        loadYouTube();
-        // YouTube will be autoplayed muted and then unmuted shortly after
-      }
+    yes.addEventListener('click',async()=>{
+      overlay.classList.add('show');
+      spawnHearts(40);
+      spawnConfetti(120);
+      try{await audio.play()}catch(e){console.log('Som bloqueado até interação')}
     });
 
-    closeModal.addEventListener('click', ()=>{overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true'); if(audioFallback){audioFallback.pause(); audioFallback.currentTime=0;} if(player){try{player.pauseVideo();}catch(e){}}});
+    function spawnHearts(n){for(let i=0;i<n;i++){const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'%';h.style.top='90%';hearts.appendChild(h);h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-130%) scale(1.2)',opacity:0}],{duration:2400+Math.random()*1200,easing:'ease-out'}).onfinish=()=>h.remove()}}
 
-    playAudio.addEventListener('click', async ()=>{
-      if(audioFallback){try{await audioFallback.play(); playAudio.textContent='🎵 tocando'; return;}catch(e){}}
-      if(player && player.playVideo){try{player.playVideo(); player.unMute(); playAudio.textContent='🎵 tocando'; return;}catch(e){}}
-      loadYouTube();
-    });
-
-    function spawnHearts(n){for(let i=0;i<n;i++){const el=document.createElement('div');el.className='heart';el.style.left=Math.random()*100+'%';el.style.top='90%';heartsEl.appendChild(el);const dur=2200+Math.random()*1400;el.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-160%) scale(1.15)',opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish=()=>el.remove();}}
-
-    function spawnConfetti(n){const colors=['#ff4d6d','#ffd166','#7bdff2','#cdb4db','#ffafcc'];for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=Math.random()*100+'%';c.style.top='-8%';confettiEl.appendChild(c);const rot=Math.random()*360;const dur=3000+Math.random()*2000;c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();}}
-
-    function loadYouTube(){if(player) return; const tag=document.createElement('script'); tag.src='https://www.youtube.com/iframe_api'; document.body.appendChild(tag); window.onYouTubeIframeAPIReady = function(){player = new YT.Player('playerContainer',{height:'0',width:'0',videoId:'1rZJwZC9C3s',playerVars:{autoplay:1,controls:0,rel:0,loop:1,playlist:'1rZJwZC9C3s',modestbranding:1,playsinline:1},events:{onReady:function(e){try{e.target.mute(); e.target.playVideo(); setTimeout(()=>{try{e.target.unMute();}catch(e){ }},800);}catch(err){}}}});}
-    }
-
-    window.addEventListener('resize', placeButtonsInit);
-    window.addEventListener('load', ()=>{placeButtonsInit(); setTimeout(moveNo,300)});
+    function spawnConfetti(n){const colors=['#ff4d6d','#ffd166','#7bdff2','#cdb4db','#ffafcc'];for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=Math.random()*100+'%';c.style.top='-10px';confetti.appendChild(c);const rot=Math.random()*360;c.animate([{transform:`translateY(0) rotate(${rot}deg)`},{transform:`translateY(120vh) rotate(${rot+720}deg)`}],{duration:3200+Math.random()*2000,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove()}}
   </script>
 </body>
 </html>
