@@ -3,88 +3,159 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pedido especial 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <title>Pedido especial • Tifa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{--accent:#ff3b6a;--accent2:#ffd166}
+    :root{--accent:#ff3b6a;--accent-2:#ff8aa0;--gold:#ffd166;--glass:rgba(255,255,255,0.06)}
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial}
-    body{display:flex;align-items:center;justify-content:center;background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover no-repeat fixed;color:#fff;padding:16px;overflow:hidden}
-    body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.7))}
-    .card{position:relative;max-width:900px;width:100%;height:580px;background:rgba(0,0,0,.6);border-radius:24px;padding:36px;box-shadow:0 25px 80px rgba(0,0,0,.75);backdrop-filter:blur(8px)}
-    h1{text-align:center;font-family:Cinzel,serif;color:var(--accent2);margin:0 0 12px;font-size:34px}
-    p{text-align:center;font-size:22px;margin:0 0 36px}
-    .actions{position:relative;height:260px;display:flex;justify-content:center}
-    .btn-row{position:relative;width:100%;max-width:520px;height:100%}
-    button{border:0;border-radius:16px;padding:16px 36px;font-size:22px;font-weight:600;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.55)}
-    #yes{background:linear-gradient(90deg,var(--accent),#ff8aa0);color:#fff;position:absolute;left:50%;top:40px;transform:translateX(-50%)}
-    #no{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.25);color:#fff;position:absolute;left:50%;top:130px;transform:translateX(-50%)}
-    .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.85));opacity:0;pointer-events:none;transition:.45s}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,-apple-system,'Helvetica Neue',Arial}
+    body{display:flex;align-items:center;justify-content:center;background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover fixed no-repeat;color:#fff}
+    body::after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.72))}
+    .wrap{position:relative;z-index:1;width:100%;max-width:980px;margin:36px;padding:28px;border-radius:20px;background:linear-gradient(180deg,rgba(10,10,12,0.32),rgba(10,10,12,0.18));box-shadow:0 30px 90px rgba(2,6,23,0.75);backdrop-filter: blur(8px)}
+    header{display:flex;align-items:center;gap:18px}
+    .logo{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:22px}
+    h1{margin:0;font-family:'Cinzel',serif;font-size:30px;color:var(--gold)}
+    p.lead{margin:8px 0 22px;font-size:18px;opacity:.95}
+    .card{position:relative;padding:20px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
+    .actions{position:relative;height:240px;display:flex;align-items:flex-start;justify-content:center}
+    .btn-row{position:relative;width:100%;max-width:560px;height:160px}
+    button{cursor:pointer;border:0;border-radius:14px;padding:14px 36px;font-weight:700;font-size:18px;letter-spacing:.2px}
+    #yes{position:absolute;left:50%;transform:translateX(-50%);top:20px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 14px 36px rgba(255,60,106,0.14)}
+    #no{position:absolute;left:50%;transform:translateX(-50%);top:110px;background:transparent;border:2px solid rgba(255,255,255,0.14);color:#fff}
+    .meta{display:flex;justify-content:center;gap:12px;margin-top:18px}
+    .hint{font-size:13px;opacity:.8}
+    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.85));opacity:0;pointer-events:none;transition:opacity .36s}
     .overlay.show{opacity:1;pointer-events:auto}
-    .popup{background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.8));padding:40px 46px;border-radius:22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.8)}
-    .popup h2{font-family:Cinzel,serif;color:var(--accent);margin:0 0 10px;font-size:32px}
-    .popup p{font-size:24px;margin:0}
-    .hearts,.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-    .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg)}
-    .heart:before,.heart:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#ff4d6d}
-    .heart:before{top:-9px;left:0}
-    .heart:after{left:9px;top:0}
-    .conf{position:absolute;width:10px;height:14px;border-radius:3px;opacity:.9}
+    .modal{padding:26px 34px;border-radius:18px;background:linear-gradient(180deg,rgba(15,15,16,0.6),rgba(12,12,13,0.5));text-align:center;max-width:720px}
+    .modal h2{margin:0 0 8px;font-family:'Cinzel',serif;font-size:30px;color:var(--accent)}
+    .modal p{margin:0;font-size:20px}
+    .controls{margin-top:16px;display:flex;gap:12px;justify-content:center}
+    .btn-ghost{background:transparent;border:2px solid rgba(255,255,255,0.08);padding:10px 16px;border-radius:10px;color:#fff}
+    .btn-primary{background:linear-gradient(90deg,#22c55e,#60d394);color:#062e16;border-radius:10px;padding:10px 16px;font-weight:700}
+    .hearts,.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}
+    .heart{position:absolute;width:14px;height:14px;transform:rotate(-45deg)}
+    .heart:before,.heart:after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:linear-gradient(180deg,#ff9aa2,#ff4d6d)}
+    .conf{position:absolute;width:10px;height:14px;border-radius:3px;opacity:.95}
+    footer{margin-top:14px;text-align:center;color:rgba(255,255,255,0.6);font-size:13px}
+    @media(max-width:640px){.wrap{margin:18px;padding:18px}.logo{width:58px;height:58px}.btn-row{max-width:420px}#yes{top:16px}#no{top:96px}}
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Pedido especial</h1>
-    <p>Tifa, <strong>você aceita namorar comigo?</strong></p>
-    <div class="actions">
-      <div class="btn-row" id="area">
-        <button id="yes">SIM 💖</button>
-        <button id="no">NÃO</button>
+  <div class="wrap" role="main">
+    <header>
+      <div class="logo">♥︎</div>
+      <div>
+        <h1>Pedido especial</h1>
+        <p class="lead">Tifa, você aceita namorar comigo?</p>
       </div>
-    </div>
-    <div class="overlay" id="overlay">
-      <div class="popup">
-        <h2>ebaeba 💕</h2>
-        <p>eu te amo, meu amor!</p>
+    </header>
+
+    <div class="card" aria-hidden="false">
+      <div class="actions">
+        <div class="btn-row" id="area">
+          <button id="yes" aria-label="Aceitar">SIM — Aceito!</button>
+          <button id="no" aria-label="Recusar">NÃO</button>
+        </div>
       </div>
+
+      <div class="meta"><div class="hint">Toque em SIM para confirmar • NÃO gosta de brincar 😉</div></div>
     </div>
-    <div class="hearts" id="hearts"></div>
-    <div class="confetti" id="confetti"></div>
-    <div id="music"></div>
+
+    <footer>feito com carinho</footer>
   </div>
 
-  <script>
-    const no=document.getElementById('no'),yes=document.getElementById('yes'),overlay=document.getElementById('overlay'),hearts=document.getElementById('hearts'),confetti=document.getElementById('confetti'),area=document.getElementById('area'),music=document.getElementById('music');
-    let firstNo=true, started=false;
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h2>ebaeba 💕</h2>
+      <p>eu te amo, meu amor!</p>
+      <div class="controls">
+        <button class="btn-primary" id="playAudio">🔊 Tocar música</button>
+        <button class="btn-ghost" id="closeModal">Fechar</button>
+      </div>
+    </div>
+  </div>
 
-    function moveNo(){
-      const minY=120,maxY=area.clientHeight-no.offsetHeight-10,minX=10,maxX=area.clientWidth-no.offsetWidth-10;
-      let x,y;do{ x=Math.random()*maxX+minX; y=Math.random()*(maxY-minY)+minY; }while(y<110);
-      no.style.left=x+'px'; no.style.top=y+'px';
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <div id="playerContainer" style="display:none"></div>
+
+  <script>
+    const yesBtn=document.getElementById('yes');
+    const noBtn=document.getElementById('no');
+    const overlay=document.getElementById('overlay');
+    const closeModal=document.getElementById('closeModal');
+    const playAudio=document.getElementById('playAudio');
+    const heartsEl=document.getElementById('hearts');
+    const confettiEl=document.getElementById('confetti');
+    const area=document.getElementById('area');
+    let firstNo=true;let player=null;let audioFallback=null;let started=false;
+
+    function placeButtonsInit(){
+      const areaW=area.clientWidth;const yesW=yesBtn.offsetWidth, noW=noBtn.offsetWidth;
+      const center=(areaW/2);
+      yesBtn.style.left=(center - yesW - 12) + 'px';
+      yesBtn.style.top='20px';
+      noBtn.style.left=(center + 12) + 'px';
+      noBtn.style.top='110px';
     }
 
-    no.addEventListener('mouseenter',moveNo);
-    no.addEventListener('touchstart',moveNo);
-    no.addEventListener('click',e=>{e.preventDefault(); if(firstNo){alert('pensa melhor'); firstNo=false;} moveNo();});
+    function moveNo(){
+      const pad=12;const areaRect=area.getBoundingClientRect();
+      const yesRect=yesBtn.getBoundingClientRect();
+      const maxX=area.clientWidth - noBtn.offsetWidth - pad;
+      const minX=pad;
+      const minY=100; const maxY=area.clientHeight - noBtn.offsetHeight - pad;
+      let x,y;do{x = Math.random()*(maxX-minX)+minX; y = Math.random()*(maxY-minY)+minY;} while(intersects({x,y,width:noBtn.offsetWidth,height:noBtn.offsetHeight}, yesBtn));
+      noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
+    }
 
-    yes.addEventListener('click',()=>{
-      overlay.classList.add('show');
-      spawnHearts(50);
-      spawnConfetti(200);
-      if(!started){
-        started=true;
-        music.innerHTML='<iframe id="yt" width="0" height="0" src="https://www.youtube.com/embed/1rZJwZC9C3s?autoplay=1&mute=1&loop=1&playlist=1rZJwZC9C3s&playsinline=1" allow="autoplay"></iframe>';
-        setTimeout(()=>{
-          const f=document.getElementById('yt');
-          f.contentWindow.postMessage('{"event":"command","func":"unMute","args":[]}','*');
-        },1200);
+    function intersects(pos, element){
+      const rect = element.getBoundingClientRect();
+      const left = rect.left - area.getBoundingClientRect().left;
+      const top = rect.top - area.getBoundingClientRect().top;
+      const buffer = 18;
+      const ax = pos.x, ay = pos.y, aw = pos.width, ah = pos.height;
+      const bx = left - buffer, by = top - buffer, bw = element.offsetWidth + buffer*2, bh = element.offsetHeight + buffer*2;
+      return !(ax + aw < bx || ax > bx + bw || ay + ah < by || ay > by + bh);
+    }
+
+    noBtn.addEventListener('mouseenter', moveNo);
+    noBtn.addEventListener('touchstart', e=>{e.preventDefault(); moveNo();});
+    noBtn.addEventListener('click', e=>{e.preventDefault(); if(firstNo){alert('pensa melhor'); firstNo=false;} moveNo();});
+
+    yesBtn.addEventListener('click', async ()=>{
+      overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+      spawnHearts(40); spawnConfetti(140);
+      if(started) return; started=true;
+      const mp3 = './sienna.mp3';
+      try{
+        audioFallback = new Audio(mp3);
+        audioFallback.loop = true;
+        await audioFallback.play();
+      }catch(e){
+        loadYouTube();
+        // YouTube will be autoplayed muted and then unmuted shortly after
       }
     });
 
-    function spawnHearts(n){for(let i=0;i<n;i++){const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'%';h.style.top='90%';hearts.appendChild(h);h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-130%) scale(1.2)',opacity:0}],{duration:2200+Math.random()*1600,easing:'ease-out'}).onfinish=()=>h.remove();}}
-    function spawnConfetti(n){const colors=['#ff4d6d','#ffd166','#7bdff2','#cdb4db','#ffafcc'];for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=Math.random()*100+'%';c.style.top='-10px';confetti.appendChild(c);const rot=Math.random()*360;c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:3000+Math.random()*2000,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();}}
+    closeModal.addEventListener('click', ()=>{overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true'); if(audioFallback){audioFallback.pause(); audioFallback.currentTime=0;} if(player){try{player.pauseVideo();}catch(e){}}});
 
-    moveNo();
+    playAudio.addEventListener('click', async ()=>{
+      if(audioFallback){try{await audioFallback.play(); playAudio.textContent='🎵 tocando'; return;}catch(e){}}
+      if(player && player.playVideo){try{player.playVideo(); player.unMute(); playAudio.textContent='🎵 tocando'; return;}catch(e){}}
+      loadYouTube();
+    });
+
+    function spawnHearts(n){for(let i=0;i<n;i++){const el=document.createElement('div');el.className='heart';el.style.left=Math.random()*100+'%';el.style.top='90%';heartsEl.appendChild(el);const dur=2200+Math.random()*1400;el.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-160%) scale(1.15)',opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish=()=>el.remove();}}
+
+    function spawnConfetti(n){const colors=['#ff4d6d','#ffd166','#7bdff2','#cdb4db','#ffafcc'];for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=Math.random()*100+'%';c.style.top='-8%';confettiEl.appendChild(c);const rot=Math.random()*360;const dur=3000+Math.random()*2000;c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();}}
+
+    function loadYouTube(){if(player) return; const tag=document.createElement('script'); tag.src='https://www.youtube.com/iframe_api'; document.body.appendChild(tag); window.onYouTubeIframeAPIReady = function(){player = new YT.Player('playerContainer',{height:'0',width:'0',videoId:'1rZJwZC9C3s',playerVars:{autoplay:1,controls:0,rel:0,loop:1,playlist:'1rZJwZC9C3s',modestbranding:1,playsinline:1},events:{onReady:function(e){try{e.target.mute(); e.target.playVideo(); setTimeout(()=>{try{e.target.unMute();}catch(e){ }},800);}catch(err){}}}});}
+    }
+
+    window.addEventListener('resize', placeButtonsInit);
+    window.addEventListener('load', ()=>{placeButtonsInit(); setTimeout(moveNo,300)});
   </script>
 </body>
 </html>
