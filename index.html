@@ -6,54 +6,37 @@
   <title>Pedido especial 💖</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --accent:#ff3b6a;
-      --accent2:#ffd166;
-    }
+    :root{--accent:#ff3b6a;--accent2:#ffd166}
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial;}
-    body{
-      display:flex;align-items:center;justify-content:center;
-      background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover no-repeat fixed;
-      color:#fff;padding:16px;overflow:hidden;
-    }
-    body::before{
-      content:"";position:fixed;inset:0;background:rgba(0,0,0,.55);
-    }
-    .card{
-      position:relative;max-width:900px;width:100%;height:560px;
-      background:rgba(0,0,0,.55);
-      border-radius:20px;padding:34px;box-shadow:0 20px 60px rgba(0,0,0,.75);
-      backdrop-filter: blur(6px);
-    }
-    h1{font-family:Cinzel,serif;color:var(--accent2);margin:0 0 10px}
-    p{font-size:22px;margin:0 0 28px}
+    html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial}
+    body{display:flex;align-items:center;justify-content:center;background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover no-repeat fixed;color:#fff;padding:16px;overflow:hidden}
+    body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.7))}
+    .card{position:relative;max-width:900px;width:100%;height:580px;background:rgba(0,0,0,.6);border-radius:24px;padding:36px;box-shadow:0 25px 80px rgba(0,0,0,.75);backdrop-filter:blur(8px)}
+    h1{text-align:center;font-family:Cinzel,serif;color:var(--accent2);margin:0 0 12px;font-size:34px}
+    p{text-align:center;font-size:22px;margin:0 0 36px}
 
-    .actions{position:relative;height:220px}
-    button{
-      border:0;border-radius:14px;padding:14px 30px;font-size:20px;font-weight:600;cursor:pointer;
-      box-shadow:0 8px 22px rgba(0,0,0,.5);
-    }
-    #yes{background:linear-gradient(90deg,var(--accent),#ff8aa0);color:#fff}
-    #no{background:transparent;border:2px solid rgba(255,255,255,.25);color:#fff;position:absolute}
+    .actions{position:relative;height:260px;display:flex;justify-content:center}
+    .btn-row{position:relative;width:100%;max-width:520px;height:100%}
 
-    .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.85));
-      opacity:0;pointer-events:none;transition:.4s}
+    button{border:0;border-radius:16px;padding:16px 36px;font-size:22px;font-weight:600;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.55)}
+    #yes{background:linear-gradient(90deg,var(--accent),#ff8aa0);color:#fff;position:absolute;left:50%;top:40px;transform:translateX(-50%)}
+    #no{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.25);color:#fff;position:absolute;left:50%;top:130px;transform:translateX(-50%)}
+
+    .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.85));opacity:0;pointer-events:none;transition:.45s}
     .overlay.show{opacity:1;pointer-events:auto}
-    .popup{background:rgba(0,0,0,.65);padding:32px;border-radius:18px;text-align:center}
-    .popup h2{font-family:Cinzel,serif;color:var(--accent);margin:0 0 8px}
-    .popup p{font-size:22px;margin:0}
+    .popup{background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.8));padding:40px 46px;border-radius:22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+    .popup h2{font-family:Cinzel,serif;color:var(--accent);margin:0 0 10px;font-size:32px}
+    .popup p{font-size:24px;margin:0}
 
-    .hearts{position:absolute;inset:0;pointer-events:none}
+    .hearts,.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
     .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg)}
     .heart:before,.heart:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#ff4d6d}
     .heart:before{top:-9px;left:0}
     .heart:after{left:9px;top:0}
 
-    iframe{display:none}
+    .conf{position:absolute;width:10px;height:14px;border-radius:3px;opacity:.9}
 
-    @media(max-width:600px){.card{height:620px;padding:22px}p{font-size:20px}}
+    @media(max-width:600px){.card{height:640px;padding:24px}p{font-size:20px}#yes{top:30px}#no{top:120px}}
   </style>
 </head>
 <body>
@@ -61,9 +44,11 @@
     <h1>Pedido especial</h1>
     <p>Tifa, <strong>você aceita namorar comigo?</strong></p>
 
-    <div class="actions" id="area">
-      <button id="yes">SIM 💖</button>
-      <button id="no">NÃO</button>
+    <div class="actions">
+      <div class="btn-row" id="area">
+        <button id="yes">SIM 💖</button>
+        <button id="no">NÃO</button>
+      </div>
     </div>
 
     <div class="overlay" id="overlay">
@@ -74,55 +59,57 @@
     </div>
 
     <div class="hearts" id="hearts"></div>
-
-    <iframe id="yt" width="0" height="0"
-      src="https://www.youtube.com/embed/1rZJwZC9C3s?autoplay=1&loop=1&playlist=1rZJwZC9C3s"
-      allow="autoplay"></iframe>
+    <div class="confetti" id="confetti"></div>
+    <div id="music"></div>
   </div>
 
   <script>
-    const no = document.getElementById('no');
-    const yes = document.getElementById('yes');
-    const overlay = document.getElementById('overlay');
-    const hearts = document.getElementById('hearts');
-    const area = document.getElementById('area');
-    let firstNo = true;
+    const no=document.getElementById('no'),yes=document.getElementById('yes'),overlay=document.getElementById('overlay'),hearts=document.getElementById('hearts'),confetti=document.getElementById('confetti'),area=document.getElementById('area'),music=document.getElementById('music');
+    let firstNo=true;
 
     function moveNo(){
-      const w = area.clientWidth - no.offsetWidth;
-      const h = area.clientHeight - no.offsetHeight;
-      no.style.left = Math.random()*w + 'px';
-      no.style.top = Math.random()*h + 'px';
+      const safeTop=100;
+      const minY=120;
+      const maxY=area.clientHeight-no.offsetHeight-10;
+      const minX=10;
+      const maxX=area.clientWidth-no.offsetWidth-10;
+      let x,y;
+      do{
+        x=Math.random()*maxX+minX;
+        y=Math.random()*(maxY-minY)+minY;
+      }while(Math.abs(y-40)<80);
+      no.style.left=x+'px';
+      no.style.top=y+'px';
     }
 
-    no.addEventListener('mouseenter', moveNo);
-    no.addEventListener('touchstart', moveNo);
-    no.addEventListener('click', e => {
-      e.preventDefault();
-      if(firstNo){
-        alert('pensa melhor');
-        firstNo = false;
-      }
-      moveNo();
-    });
+    no.addEventListener('mouseenter',moveNo);
+    no.addEventListener('touchstart',moveNo);
+    no.addEventListener('click',e=>{e.preventDefault();if(firstNo){alert('pensa melhor');firstNo=false}moveNo()});
 
-    yes.addEventListener('click', ()=>{
+    yes.addEventListener('click',()=>{
       overlay.classList.add('show');
-      spawnHearts(30);
-      document.getElementById('yt').style.display = 'block';
+      spawnHearts(36);
+      spawnConfetti(120);
+      music.innerHTML='<iframe width="0" height="0" src="https://www.youtube.com/embed/1rZJwZC9C3s?autoplay=1&loop=1&playlist=1rZJwZC9C3s" allow="autoplay"></iframe>';
     });
 
     function spawnHearts(n){
       for(let i=0;i<n;i++){
-        const h = document.createElement('div');
-        h.className = 'heart';
-        h.style.left = Math.random()*100+'%';
-        h.style.top = '90%';
-        hearts.appendChild(h);
-        h.animate([
-          {transform:'translateY(0) scale(.8)',opacity:1},
-          {transform:'translateY(-120%) scale(1.2)',opacity:0}
-        ],{duration:2000+Math.random()*1500,easing:'ease-out'}).onfinish=()=>h.remove();
+        const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'%';h.style.top='90%';hearts.appendChild(h);
+        h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-130%) scale(1.2)',opacity:0}],{duration:2200+Math.random()*1600,easing:'ease-out'}).onfinish=()=>h.remove();
+      }
+    }
+
+    function spawnConfetti(n){
+      const colors=['#ff4d6d','#ffd166','#7bdff2','#cdb4db','#ffafcc'];
+      for(let i=0;i<n;i++){
+        const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];
+        c.style.left=Math.random()*100+'%';c.style.top='-10px';confetti.appendChild(c);
+        const rot=Math.random()*360;
+        c.animate([
+          {transform:`translateY(0) rotate(${rot}deg)`,opacity:1},
+          {transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}
+        ],{duration:3000+Math.random()*2000,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();
       }
     }
 
