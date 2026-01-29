@@ -3,38 +3,155 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pedido especial</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+  <title>Pedido especial 💜</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
   <style>
-    :root{--accent:#ff3b6a;--accent2:#ff8aa0;--gold:#ffd166}
+    :root{--purple:#8b5cf6;--purple2:#a78bfa;--pink:#ff4d6d}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial}
-    body{display:flex;align-items:center;justify-content:center;background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover fixed no-repeat;color:#fff;overflow:hidden}
-    body::after{content:"";position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.75))}
 
-    .wrap{position:relative;z-index:1;width:100%;max-width:820px;margin:24px;padding:28px;border-radius:22px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);box-shadow:0 25px 80px rgba(0,0,0,.8)}
-    h1{margin:0 0 10px;text-align:center;font-family:Cinzel,serif;color:var(--gold);font-size:32px}
-    p{margin:0 0 30px;text-align:center;font-size:22px}
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover no-repeat fixed;
+      color:#fff;
+      overflow:hidden;
+    }
 
-    .actions{position:relative;height:220px;display:flex;justify-content:center}
-    .btn-area{position:relative;width:320px;height:200px}
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45));
+    }
 
-    button{border:0;border-radius:16px;padding:14px 0;width:100%;font-size:22px;font-weight:700;cursor:pointer}
-    #yes{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;position:absolute;top:30px;left:0}
-    #no{background:transparent;border:2px solid rgba(255,255,255,.35);color:#fff;position:absolute;top:120px;left:0}
+    .wrap{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:900px;
+      padding:42px 36px 48px;
+      border-radius:32px;
+      background:rgba(0,0,0,.35);
+      backdrop-filter:blur(6px);
+      box-shadow:0 40px 120px rgba(0,0,0,.85);
+    }
 
-    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);opacity:0;pointer-events:none;transition:.35s}
+    h1{
+      margin:0 0 14px;
+      text-align:center;
+      font-family:Cinzel,serif;
+      font-size:36px;
+      letter-spacing:1px;
+      color:#fff;
+      text-shadow:0 4px 20px rgba(0,0,0,.8);
+    }
+
+    p{
+      margin:0 0 42px;
+      text-align:center;
+      font-size:24px;
+      font-weight:500;
+      text-shadow:0 3px 14px rgba(0,0,0,.7);
+    }
+
+    .actions{
+      position:relative;
+      height:260px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .btn-area{
+      position:relative;
+      width:360px;
+      height:260px;
+    }
+
+    button{
+      width:100%;
+      padding:18px 0;
+      border-radius:18px;
+      font-size:24px;
+      font-weight:800;
+      border:none;
+      cursor:pointer;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+
+    #yes{
+      position:absolute;
+      top:24px;
+      left:0;
+      background:linear-gradient(135deg,var(--purple),var(--purple2));
+      color:#fff;
+      box-shadow:0 20px 60px rgba(139,92,246,.6);
+    }
+
+    #yes:hover{
+      transform:scale(1.05);
+      box-shadow:0 28px 80px rgba(139,92,246,.9);
+    }
+
+    #no{
+      position:absolute;
+      top:140px;
+      left:0;
+      background:rgba(255,255,255,.1);
+      border:2px solid rgba(255,255,255,.35);
+      color:#fff;
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.75);
+      opacity:0;
+      pointer-events:none;
+      transition:.35s;
+    }
+
     .overlay.show{opacity:1;pointer-events:auto}
-    .modal{text-align:center;padding:32px 36px;border-radius:20px;background:rgba(0,0,0,.7)}
-    .modal h2{margin:0 0 12px;font-family:Cinzel,serif;color:var(--accent);font-size:32px}
-    .modal p{margin:0;font-size:24px}
+
+    .modal{
+      text-align:center;
+      padding:48px 52px;
+      border-radius:28px;
+      background:rgba(0,0,0,.65);
+      box-shadow:0 30px 90px rgba(0,0,0,.9);
+    }
+
+    .modal h2{
+      margin:0 0 14px;
+      font-family:Cinzel,serif;
+      font-size:38px;
+      color:var(--pink);
+    }
+
+    .modal p{
+      margin:0;
+      font-size:26px;
+    }
 
     .hearts,.confetti{position:fixed;inset:0;pointer-events:none}
-    .heart{position:absolute;width:16px;height:16px;transform:rotate(-45deg)}
-    .heart:before,.heart:after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#ff4d6d}
-    .heart:before{top:-8px}
-    .heart:after{left:8px}
-    .conf{position:absolute;width:10px;height:14px;border-radius:3px}
+
+    .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg)}
+    .heart:before,.heart:after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#ff4d6d}
+    .heart:before{top:-9px}
+    .heart:after{left:9px}
+
+    .conf{position:absolute;width:12px;height:16px;border-radius:4px}
+
+    @media(max-width:600px){
+      .wrap{padding:32px 22px}
+      h1{font-size:30px}
+      p{font-size:22px}
+      .btn-area{width:100%}
+    }
   </style>
 </head>
 <body>
@@ -44,7 +161,7 @@
 
     <div class="actions">
       <div class="btn-area" id="area">
-        <button id="yes">SIM 💖</button>
+        <button id="yes">SIM 💜</button>
         <button id="no">NÃO</button>
       </div>
     </div>
@@ -76,7 +193,7 @@
 
     function moveNo(){
       const maxY=area.clientHeight-no.offsetHeight-10;
-      const y=Math.random()*(maxY-120)+120;
+      const y=Math.random()*(maxY-140)+140;
       no.style.top=y+'px';
     }
 
@@ -86,14 +203,14 @@
 
     yes.addEventListener('click',async()=>{
       overlay.classList.add('show');
-      spawnHearts(40);
-      spawnConfetti(120);
-      try{await audio.play()}catch(e){console.log('Som bloqueado até interação')}
+      spawnHearts(60);
+      spawnConfetti(180);
+      try{await audio.play()}catch(e){}
     });
 
-    function spawnHearts(n){for(let i=0;i<n;i++){const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'%';h.style.top='90%';hearts.appendChild(h);h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-130%) scale(1.2)',opacity:0}],{duration:2400+Math.random()*1200,easing:'ease-out'}).onfinish=()=>h.remove()}}
+    function spawnHearts(n){for(let i=0;i<n;i++){const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'%';h.style.top='90%';hearts.appendChild(h);h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-150%) scale(1.2)',opacity:0}],{duration:2600+Math.random()*1200,easing:'ease-out'}).onfinish=()=>h.remove()}}
 
-    function spawnConfetti(n){const colors=['#ff4d6d','#ffd166','#7bdff2','#cdb4db','#ffafcc'];for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=Math.random()*100+'%';c.style.top='-10px';confetti.appendChild(c);const rot=Math.random()*360;c.animate([{transform:`translateY(0) rotate(${rot}deg)`},{transform:`translateY(120vh) rotate(${rot+720}deg)`}],{duration:3200+Math.random()*2000,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove()}}
+    function spawnConfetti(n){const colors=['#8b5cf6','#a78bfa','#ff4d6d','#ffd166','#7bdff2'];for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=Math.random()*100+'%';c.style.top='-10px';confetti.appendChild(c);const rot=Math.random()*360;c.animate([{transform:`translateY(0) rotate(${rot}deg)`},{transform:`translateY(120vh) rotate(${rot+720}deg)`}],{duration:3400+Math.random()*2000,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove()}}
   </script>
 </body>
 </html>
