@@ -1,4 +1,3 @@
-<!-- index.html - substitua seu arquivo por este -->
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -7,59 +6,48 @@
   <title>Pedido especial</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{--purple:#7c3aed;--purple-2:#a78bfa;--accent:#ff4d6d}
+    :root{--purple:#7c3aed;--purple-2:#9f7bff;--accent:#ff4d6d}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:#000}
     body{display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .stage{position:fixed;inset:0;background-image:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg');background-size:cover;background-position:center center;filter:contrast(1.08) saturate(1.06);transition:transform .12s linear}
-    .overlay-tint{position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.18));pointer-events:none}
-    .wrap{position:relative;z-index:2;width:100%;max-width:980px;margin:32px;padding:36px;border-radius:24px;background:linear-gradient(180deg,rgba(0,0,0,0.10),rgba(0,0,0,0.04));backdrop-filter:blur(6px);box-shadow:0 40px 120px rgba(0,0,0,0.7)}
-    h1{font-family:Cinzel,serif;margin:0;font-size:34px;text-align:center;color:#fff;text-shadow:0 8px 28px rgba(0,0,0,.65)}
-    .question{margin-top:10px;text-align:center;font-size:20px;color:rgba(255,255,255,.96);font-weight:600}
-    .controls{margin-top:28px;display:flex;justify-content:center}
-    .frame{width:420px;border-radius:18px;padding:22px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);position:relative}
-    .btn{display:block;width:100%;padding:16px 0;border-radius:14px;border:0;font-size:20px;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;position:absolute;left:0}
-    #yes{top:12px;background:linear-gradient(135deg,var(--purple),var(--purple-2));color:#fff;box-shadow:0 22px 70px rgba(124,58,237,.28);outline:none}
-    #yes:active{transform:translateY(2px)}
-    #yes.pulse{animation:btnPulse 1.6s ease-in-out infinite}
-    @keyframes btnPulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
-    #no{top:110px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.08)}
-    .no-catcher{position:absolute;left:0;top:0;width:100%;height:100%;background:transparent;z-index:5}
-    .tooltip{position:absolute;left:50%;transform:translateX(-50%);top:-36px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.7);color:#fff;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s}
-    .tooltip.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+    .stage{position:fixed;inset:0;background-image:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg');background-size:cover;background-position:center center;filter:contrast(1.06) saturate(1.04)}
+    .wrap{position:relative;z-index:2;width:100%;max-width:820px;margin:28px;padding:28px;border-radius:18px;background:rgba(0,0,0,0.06);backdrop-filter:blur(2px)}
+    h1{font-family:Cinzel,serif;margin:0;font-size:32px;text-align:center;color:#fff;text-shadow:0 6px 18px rgba(0,0,0,.6)}
+    .question{margin-top:8px;text-align:center;font-size:18px;color:rgba(255,255,255,.96);font-weight:600}
+    .controls{margin-top:20px;display:flex;justify-content:center}
+    .frame{width:320px;border-radius:14px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);position:relative}
+    .btn{display:block;width:100%;padding:10px 0;border-radius:10px;border:0;font-size:18px;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;position:absolute;left:0}
+    #yes{top:10px;background:linear-gradient(135deg,var(--purple),var(--purple-2));color:#fff;box-shadow:0 18px 50px rgba(124,58,237,.22)}
+    #yes:active{transform:translateY(1px)}
+    #no{top:86px;background:rgba(255,255,255,0.04);color:#fff;border:2px solid rgba(255,255,255,0.06)}
     .effects{position:fixed;inset:0;pointer-events:none;z-index:40}
-    .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg);will-change:transform,opacity}
-    .heart:before,.heart:after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:linear-gradient(180deg,#ff9aa2,#ff4d6d)}
-    .conf{position:absolute;width:12px;height:16px;border-radius:3px;will-change:transform,opacity}
-    .overlay-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);opacity:0;pointer-events:none;transition:opacity .28s}
+    .heart{position:absolute;width:14px;height:14px;transform:rotate(-45deg);will-change:transform,opacity}
+    .heart:before,.heart:after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:linear-gradient(180deg,#ff9aa2,#ff4d6d)}
+    .conf{position:absolute;width:10px;height:12px;border-radius:3px;will-change:transform,opacity}
+    .overlay-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity .28s}
     .overlay-modal.show{opacity:1;pointer-events:auto}
-    .modal{padding:26px 30px;border-radius:16px;background:linear-gradient(180deg,rgba(0,0,0,0.72),rgba(0,0,0,0.64));text-align:center}
-    .modal h2{font-family:Cinzel,serif;margin:0 0 8px;color:var(--accent)}
-    .modal p{margin:0;font-size:18px}
-    @media(max-width:520px){.frame{width:90vw;padding:14px}.wrap{padding:20px;border-radius:14px}h1{font-size:28px}.question{font-size:18px}}
+    .modal{padding:18px 20px;border-radius:12px;background:rgba(0,0,0,0.72);text-align:center;border:1px solid rgba(255,255,255,0.04)}
+    .modal p{margin:0;font-size:20px;color:#fff}
+    @media(max-width:520px){.frame{width:86vw;padding:12px}.wrap{padding:16px;border-radius:12px}h1{font-size:26px}.question{font-size:16px}}
   </style>
 </head>
 <body>
   <div class="stage" id="stage" aria-hidden="true"></div>
-  <div class="overlay-tint" aria-hidden="true"></div>
 
   <div class="wrap" role="main">
     <h1>Pedido especial</h1>
     <div class="question">Tifa, <strong>você aceita namorar comigo?</strong></div>
     <div class="controls">
       <div class="frame" id="frame">
-        <button id="yes" class="btn" aria-label="Sim" tabindex="0">SIM</button>
-        <button id="no" class="btn" aria-label="Não" aria-disabled="true" disabled tabindex="-1">NÃO</button>
-        <div class="no-catcher" id="noCatcher" aria-hidden="false"></div>
-        <div class="tooltip" id="tooltip">pensa melhor</div>
+        <button id="yes" class="btn" aria-label="Sim">SIM</button>
+        <button id="no" class="btn" aria-label="Não">NÃO</button>
       </div>
     </div>
   </div>
 
   <div class="overlay-modal" id="overlayModal" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
-      <h2>ebaeba 💕</h2>
-      <p>eu te amo, meu amor!</p>
+      <p>ebaeba eu te amo</p>
     </div>
   </div>
 
@@ -77,188 +65,88 @@
     const effects = document.getElementById('effects');
     const overlayModal = document.getElementById('overlayModal');
     const audio = document.getElementById('audio');
-    const noCatcher = document.getElementById('noCatcher');
-    const tooltip = document.getElementById('tooltip');
 
     let unlocked = false;
-    let firstAttempt = true;
     let started = false;
-    let yesDisabled = false;
 
-    function parallax(e){
-      const rx = (e.clientX / window.innerWidth - 0.5) * 12;
-      const ry = (e.clientY / window.innerHeight - 0.5) * 8;
-      stage.style.transform = `translate3d(${rx}px, ${ry}px, 0) scale(1.02)`;
-    }
-    window.addEventListener('mousemove', parallax);
-    window.addEventListener('touchmove', (e)=>{ if(e.touches && e.touches[0]) parallax(e.touches[0]); }, {passive:true});
-
-    function placeInitial(){
-      const gap = 14;
-      yes.style.width = '100%';
-      no.style.width = '100%';
+    function placeButtons(){
+      const gap = 12;
+      yes.style.width='100%';
+      no.style.width='100%';
       yes.style.top = gap + 'px';
-      const noTop = yes.offsetHeight + gap*2;
-      no.style.top = noTop + 'px';
-      const needed = no.offsetTop + no.offsetHeight + gap;
-      if(frame.clientHeight < needed) frame.style.height = (needed) + 'px';
-      positionNoCatcher();
-      positionTooltip();
-    }
-
-    function positionNoCatcher(){
-      const rect = no.getBoundingClientRect();
-      const parentRect = frame.getBoundingClientRect();
-      noCatcher.style.left = (rect.left - parentRect.left) + 'px';
-      noCatcher.style.top = (rect.top - parentRect.top) + 'px';
-      noCatcher.style.width = rect.width + 'px';
-      noCatcher.style.height = rect.height + 'px';
-    }
-
-    function positionTooltip(){
-      const rect = no.getBoundingClientRect();
-      const parentRect = frame.getBoundingClientRect();
-      tooltip.style.left = (rect.left - parentRect.left + rect.width/2) + 'px';
-      tooltip.style.top = (rect.top - parentRect.top - 36) + 'px';
+      no.style.top = (yes.offsetHeight + gap*2) + 'px';
+      const needed = parseInt(no.style.top) + no.offsetHeight + gap;
+      if(frame.clientHeight < needed) frame.style.height = needed + 'px';
     }
 
     function moveNo(){
-      const padding = 12;
+      const padding = 8;
       const minY = yes.offsetHeight + padding*2;
-      const maxY = frame.clientHeight - no.offsetHeight - padding;
-      if(maxY <= minY) return;
-      let y = Math.floor(Math.random()*(maxY - minY + 1)) + minY;
-      const xJitter = Math.floor(Math.random()*8 - 4);
+      const maxY = Math.max(frame.clientHeight - no.offsetHeight - padding, minY + 1);
+      const y = Math.floor(Math.random()*(maxY - minY + 1)) + minY;
+      const xJitter = Math.floor(Math.random()*10 - 5);
       no.style.transform = `translateX(${xJitter}px)`;
       no.style.top = y + 'px';
-      requestAnimationFrame(()=>{ positionNoCatcher(); positionTooltip(); });
     }
 
-    function showTooltip(){
-      tooltip.classList.add('show');
-      setTimeout(()=>tooltip.classList.remove('show'), 1100);
-    }
-
-    function spawnHeartBurst(elem, count){
-      const rect = elem.getBoundingClientRect();
-      const startX = rect.left + rect.width/2;
-      const startY = rect.top + rect.height/2;
+    function spawnHearts(centerX, centerY, count){
       for(let i=0;i<count;i++){
         const h = document.createElement('div'); h.className='heart'; effects.appendChild(h);
-        const sx = startX + (Math.random()*80 - 40);
-        const sy = startY + (Math.random()*20 - 20);
+        const sx = centerX + (Math.random()*80 - 40);
+        const sy = centerY + (Math.random()*24 - 12);
         h.style.left = sx + 'px';
         h.style.top = sy + 'px';
-        const driftX = (Math.random()*200 - 100);
-        const dur = 1600 + Math.random()*1800;
-        h.animate([{transform:'translate3d(0,0,0) scale(.8)',opacity:1},{transform:`translate3d(${driftX}px,-220%,0) scale(1.35)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.15,.85,.15,1)'}).onfinish = ()=>h.remove();
+        const driftX = (Math.random()*220 - 110);
+        const dur = 1400 + Math.random()*1800;
+        h.animate([{transform:'translate3d(0,0,0) scale(.9)',opacity:1},{transform:`translate3d(${driftX}px,-180%,0) scale(1.25)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish = ()=>h.remove();
       }
     }
 
-    function spawnConfettiFrom(elem, n){
-      const rect = elem.getBoundingClientRect();
-      const sx = rect.left + rect.width/2;
-      const sy = rect.top + rect.height/2;
-      const colors = ['#8b5cf6','#a78bfa','#ff4d6d','#ffd166','#7bdff2'];
+    function spawnConfetti(centerX, centerY, n){
+      const colors=['#7c3aed','#9f7bff','#ff4d6d','#ffd166','#7bdff2'];
       for(let i=0;i<n;i++){
-        const c = document.createElement('div'); c.className='conf'; c.style.background = colors[Math.floor(Math.random()*colors.length)]; effects.appendChild(c);
-        const offsetX = (Math.random()*160 - 80);
-        c.style.left = (sx + offsetX) + 'px';
-        c.style.top = sy + 'px';
-        const rot = Math.random()*360; const dur = 2200 + Math.random()*2400;
-        c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish = ()=>c.remove();
+        const c = document.createElement('div'); c.className='conf'; c.style.background=colors[Math.floor(Math.random()*colors.length)]; effects.appendChild(c);
+        c.style.left = (centerX + (Math.random()*140 - 70)) + 'px'; c.style.top = centerY + 'px';
+        const rot = Math.random()*360; const dur = 2200 + Math.random()*2000;
+        c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();
       }
     }
 
-    function vibrate(){ if(navigator.vibrate) navigator.vibrate([60,40,60]); }
+    function openModal(){
+      overlayModal.classList.add('show'); overlayModal.setAttribute('aria-hidden','false');
+    }
 
     async function celebrate(){
-      if(yesDisabled) return;
-      yesDisabled = true;
-      overlayModal.classList.add('show'); overlayModal.setAttribute('aria-hidden','false');
-      spawnHeartBurst(yes, 100);
-      spawnConfettiFrom(yes, 140);
-      setTimeout(()=>spawnHeartBurst(yes, 60), 260);
-      setTimeout(()=>spawnConfettiFrom(yes, 80), 480);
-      vibrate();
-      if(!started){
-        started = true;
-        try{
-          // try local MP3 first
-          audio.currentTime = 0;
-          audio.volume = 0.0;
-          await audio.play();
-          // fade in
-          let v = 0.0; const step = 0.06; const iv = setInterval(()=>{ v = Math.min(1, v + step); audio.volume = v; if(v>=1) clearInterval(iv); }, 120);
-        }catch(err){
-          // fallback to YouTube if local audio cannot play
-          loadYouTubeFallback();
+      if(started) return;
+      started = true;
+      const rect = yes.getBoundingClientRect();
+      const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2;
+      spawnHearts(cx, cy, 60);
+      spawnConfetti(cx, cy, 80);
+      setTimeout(()=>spawnHearts(cx, cy, 40), 260);
+      setTimeout(()=>spawnConfetti(cx, cy, 40), 480);
+      openModal();
+      try{ audio.currentTime = 0; audio.volume = 1.0; await audio.play(); }catch(e){
+        // try unlocking audio via temporary mute-play-unmute
+        try{ audio.muted = true; await audio.play(); audio.muted = false; }catch(_){
+          // fallback: do nothing (user can click to play)
         }
       }
-      // unlock next clicks after short delay to avoid spam
-      setTimeout(()=>{ yesDisabled = false; }, 1500);
     }
 
-    function unlockAudioOnFirstTouch(){
-      if(unlocked) return;
-      unlocked = true;
-      audio.muted = true;
-      audio.play().then(()=>{ setTimeout(()=>{ audio.muted = false; }, 200); }).catch(()=>{});
-      document.removeEventListener('pointerdown', unlockAudioOnFirstTouch);
-    }
-    document.addEventListener('pointerdown', unlockAudioOnFirstTouch, {passive:true});
+    function unlockAudio(){ if(unlocked) return; unlocked=true; audio.muted=true; audio.play().then(()=>{ setTimeout(()=>{ audio.muted=false; },160); }).catch(()=>{}); document.removeEventListener('pointerdown', unlockAudio); }
+    document.addEventListener('pointerdown', unlockAudio, {passive:true});
 
-    // make 'no' impossible: catcher intercepts interactions and teleports the real button
-    function handleNoAttempt(e){
-      e.preventDefault();
-      if(firstAttempt){ showTooltip(); firstAttempt = false; }
-      moveNo();
-    }
-    noCatcher.addEventListener('pointerenter', handleNoAttempt);
-    noCatcher.addEventListener('pointerdown', handleNoAttempt);
-    noCatcher.addEventListener('click', handleNoAttempt);
-
-    // block direct clicks on disabled button (safety)
-    no.addEventListener('click', (e)=>{ e.preventDefault(); });
-
-    // yes button triggers on pointerdown for best latency
+    // events
     yes.addEventListener('pointerdown', (e)=>{ e.preventDefault(); celebrate(); });
-
-    // keyboard accessibility
     yes.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); celebrate(); } });
-    no.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); handleNoAttempt(e); } });
 
-    window.addEventListener('load', ()=>{ placeInitial(); setTimeout(()=>{ moveNo(); }, 120); });
-    window.addEventListener('resize', ()=>{ placeInitial(); });
+    no.addEventListener('pointerenter', ()=>{ moveNo(); });
+    no.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNo(); });
+    no.addEventListener('click', (e)=>{ e.preventDefault(); moveNo(); });
 
-    // fallback YouTube player load (muted autoplay -> unmute)
-    let ytLoaded = false;
-    function loadYouTubeFallback(){
-      if(ytLoaded) return; ytLoaded = true;
-      const tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api'; document.body.appendChild(tag);
-      window.onYouTubeIframeAPIReady = function(){
-        const player = new YT.Player(document.createElement('div'), {
-          height: '0', width: '0', videoId: '1rZJwZC9C3s',
-          playerVars: {autoplay:1,controls:0,loop:1,playlist:'1rZJwZC9C3s',playsinline:1,modestbranding:1,rel:0},
-          events: {
-            onReady: function(e){
-              try{ e.target.mute(); e.target.playVideo(); setTimeout(()=>{ try{ e.target.unMute(); }catch(_){} }, 800); }catch(_){} 
-            }
-          }
-        });
-        // append player's iframe container hidden (YouTube API creates it)
-        player.getIframe().style.display = 'none';
-        document.body.appendChild(player.getIframe());
-      };
-    }
-
-    // quick existence check for local MP3 (graceful: if blocked by CORS this may fail and fallback will be used)
-    (function checkLocalMP3(){
-      fetch('sienna.mp3', {method: 'HEAD'}).then(r=>{
-        if(!r.ok) console.warn('sienna.mp3 não encontrada (HEAD), fallback possível.');
-      }).catch(()=>{ /* ignore */ });
-    })();
-
+    window.addEventListener('load', ()=>{ placeButtons(); setTimeout(()=>moveNo(),120); });
+    window.addEventListener('resize', ()=>{ placeButtons(); });
   </script>
 </body>
 </html>
