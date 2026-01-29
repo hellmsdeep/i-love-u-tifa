@@ -1,3 +1,4 @@
+<!-- index.html - substitua seu arquivo por este -->
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -23,7 +24,7 @@
     #yes.pulse{animation:btnPulse 1.6s ease-in-out infinite}
     @keyframes btnPulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
     #no{top:110px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.08)}
-    .no-catcher{position:absolute;left:0;top:0;width:100%;height:100%;background:transparent}
+    .no-catcher{position:absolute;left:0;top:0;width:100%;height:100%;background:transparent;z-index:5}
     .tooltip{position:absolute;left:50%;transform:translateX(-50%);top:-36px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.7);color:#fff;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s}
     .tooltip.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
     .effects{position:fixed;inset:0;pointer-events:none;z-index:40}
@@ -47,8 +48,8 @@
     <div class="question">Tifa, <strong>você aceita namorar comigo?</strong></div>
     <div class="controls">
       <div class="frame" id="frame">
-        <button id="yes" class="btn" aria-label="Sim">SIM</button>
-        <button id="no" class="btn" aria-label="Não" aria-disabled="true" disabled>NÃO</button>
+        <button id="yes" class="btn" aria-label="Sim" tabindex="0">SIM</button>
+        <button id="no" class="btn" aria-label="Não" aria-disabled="true" disabled tabindex="-1">NÃO</button>
         <div class="no-catcher" id="noCatcher" aria-hidden="false"></div>
         <div class="tooltip" id="tooltip">pensa melhor</div>
       </div>
@@ -82,6 +83,7 @@
     let unlocked = false;
     let firstAttempt = true;
     let started = false;
+    let yesDisabled = false;
 
     function parallax(e){
       const rx = (e.clientX / window.innerWidth - 0.5) * 12;
@@ -105,7 +107,6 @@
     }
 
     function positionNoCatcher(){
-      // place catcher exactly over the no button area
       const rect = no.getBoundingClientRect();
       const parentRect = frame.getBoundingClientRect();
       noCatcher.style.left = (rect.left - parentRect.left) + 'px';
@@ -127,11 +128,9 @@
       const maxY = frame.clientHeight - no.offsetHeight - padding;
       if(maxY <= minY) return;
       let y = Math.floor(Math.random()*(maxY - minY + 1)) + minY;
-      // small horizontal jitter so it doesn't feel stuck
       const xJitter = Math.floor(Math.random()*8 - 4);
       no.style.transform = `translateX(${xJitter}px)`;
       no.style.top = y + 'px';
-      // position catcher and tooltip after layout settles
       requestAnimationFrame(()=>{ positionNoCatcher(); positionTooltip(); });
     }
 
@@ -174,45 +173,91 @@
     function vibrate(){ if(navigator.vibrate) navigator.vibrate([60,40,60]); }
 
     async function celebrate(){
+      if(yesDisabled) return;
+      yesDisabled = true;
       overlayModal.classList.add('show'); overlayModal.setAttribute('aria-hidden','false');
-      spawnHeartBurst(yes, 80);
-      spawnConfettiFrom(yes, 90);
-      setTimeout(()=>spawnHeartBurst(yes, 50), 260);
-      setTimeout(()=>spawnConfettiFrom(yes, 60), 480);
+      spawnHeartBurst(yes, 100);
+      spawnConfettiFrom(yes, 140);
+      setTimeout(()=>spawnHeartBurst(yes, 60), 260);
+      setTimeout(()=>spawnConfettiFrom(yes, 80), 480);
       vibrate();
       if(!started){
         started = true;
         try{
-          audio.currentTime = 0; audio.volume = 0.0; await audio.play();
+          // try local MP3 first
+          audio.currentTime = 0;
+          audio.volume = 0.0;
+          await audio.play();
+          // fade in
           let v = 0.0; const step = 0.06; const iv = setInterval(()=>{ v = Math.min(1, v + step); audio.volume = v; if(v>=1) clearInterval(iv); }, 120);
-          yes.classList.add('pulse'); setTimeout(()=>yes.classList.remove('pulse'), 1600);
-        }catch(e){ }
+        }catch(err){
+          // fallback to YouTube if local audio cannot play
+          loadYouTubeFallback();
+        }
       }
+      // unlock next clicks after short delay to avoid spam
+      setTimeout(()=>{ yesDisabled = false; }, 1500);
     }
 
-    function unlockAudioOnFirstTouch(){ if(unlocked) return; unlocked = true; audio.muted = true; audio.play().then(()=>{ setTimeout(()=>{ audio.muted = false; }, 200); }).catch(()=>{}); document.removeEventListener('pointerdown', unlockAudioOnFirstTouch); }
+    function unlockAudioOnFirstTouch(){
+      if(unlocked) return;
+      unlocked = true;
+      audio.muted = true;
+      audio.play().then(()=>{ setTimeout(()=>{ audio.muted = false; }, 200); }).catch(()=>{});
+      document.removeEventListener('pointerdown', unlockAudioOnFirstTouch);
+    }
     document.addEventListener('pointerdown', unlockAudioOnFirstTouch, {passive:true});
 
-    // make 'no' impossible (simpler + stable)
+    // make 'no' impossible: catcher intercepts interactions and teleports the real button
     function handleNoAttempt(e){
       e.preventDefault();
-      if(firstAttempt){ showTooltip(); firstAttempt=false; }
+      if(firstAttempt){ showTooltip(); firstAttempt = false; }
       moveNo();
     }
     noCatcher.addEventListener('pointerenter', handleNoAttempt);
     noCatcher.addEventListener('pointerdown', handleNoAttempt);
     noCatcher.addEventListener('click', handleNoAttempt);
-    noCatcher.addEventListener('touchstart', (e)=>{ e.preventDefault(); if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); }, {passive:false});
-    noCatcher.addEventListener('click', (e)=>{ e.preventDefault(); if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); });
 
-    // still keep keyboard safety: prevent focus/click on the disabled button
+    // block direct clicks on disabled button (safety)
     no.addEventListener('click', (e)=>{ e.preventDefault(); });
 
-    yes.addEventListener('pointerdown',(e)=>{ e.preventDefault(); celebrate(); }); celebrate(); });
-    yes.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); celebrate(); } }); celebrate(); } });
+    // yes button triggers on pointerdown for best latency
+    yes.addEventListener('pointerdown', (e)=>{ e.preventDefault(); celebrate(); });
+
+    // keyboard accessibility
+    yes.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); celebrate(); } });
+    no.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); handleNoAttempt(e); } });
 
     window.addEventListener('load', ()=>{ placeInitial(); setTimeout(()=>{ moveNo(); }, 120); });
     window.addEventListener('resize', ()=>{ placeInitial(); });
+
+    // fallback YouTube player load (muted autoplay -> unmute)
+    let ytLoaded = false;
+    function loadYouTubeFallback(){
+      if(ytLoaded) return; ytLoaded = true;
+      const tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api'; document.body.appendChild(tag);
+      window.onYouTubeIframeAPIReady = function(){
+        const player = new YT.Player(document.createElement('div'), {
+          height: '0', width: '0', videoId: '1rZJwZC9C3s',
+          playerVars: {autoplay:1,controls:0,loop:1,playlist:'1rZJwZC9C3s',playsinline:1,modestbranding:1,rel:0},
+          events: {
+            onReady: function(e){
+              try{ e.target.mute(); e.target.playVideo(); setTimeout(()=>{ try{ e.target.unMute(); }catch(_){} }, 800); }catch(_){} 
+            }
+          }
+        });
+        // append player's iframe container hidden (YouTube API creates it)
+        player.getIframe().style.display = 'none';
+        document.body.appendChild(player.getIframe());
+      };
+    }
+
+    // quick existence check for local MP3 (graceful: if blocked by CORS this may fail and fallback will be used)
+    (function checkLocalMP3(){
+      fetch('sienna.mp3', {method: 'HEAD'}).then(r=>{
+        if(!r.ok) console.warn('sienna.mp3 não encontrada (HEAD), fallback possível.');
+      }).catch(()=>{ /* ignore */ });
+    })();
 
   </script>
 </body>
