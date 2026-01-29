@@ -3,209 +3,130 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pedido de namoro • Tifa</title>
+  <title>Pedido especial 💖</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg1:#0f0f10;
-      --bg2:#30000a;
-      --accent:#ff4655;
+      --accent:#ff3b6a;
       --accent2:#ffd166;
-      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial;}
     body{
       display:flex;align-items:center;justify-content:center;
-      background:radial-gradient(circle at 20% 20%, rgba(255,80,120,0.06), transparent 10%),
-                 linear-gradient(135deg,var(--bg1),var(--bg2));
-      color:#fff;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:20px;
+      background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover no-repeat fixed;
+      color:#fff;padding:16px;overflow:hidden;
     }
-    .stage{width:100%;max-width:920px;}
+    body::before{
+      content:"";position:fixed;inset:0;background:rgba(0,0,0,.55);
+    }
     .card{
-      position:relative;
-      height:520px;
-      border-radius:18px;padding:36px;
-      background:var(--card-bg);
-      box-shadow:0 10px 40px rgba(0,0,0,0.6);
-      overflow:hidden;
+      position:relative;max-width:900px;width:100%;height:560px;
+      background:rgba(0,0,0,.55);
+      border-radius:20px;padding:34px;box-shadow:0 20px 60px rgba(0,0,0,.75);
       backdrop-filter: blur(6px);
     }
-    h1{font-family:Cinzel,serif;font-size:34px;margin:0 0 14px;color:var(--accent2)}
-    p.lead{margin:0 0 30px;font-size:20px;opacity:0.95}
+    h1{font-family:Cinzel,serif;color:var(--accent2);margin:0 0 10px}
+    p{font-size:22px;margin:0 0 28px}
 
-    .actions{position:relative;height:180px;border-radius:12px}
-
-    button.big{
-      appearance:none;border:0;padding:14px 28px;border-radius:12px;font-weight:600;font-size:18px;cursor:pointer;
-      box-shadow:0 6px 18px rgba(0,0,0,0.45);transition:transform .12s ease, box-shadow .12s ease;
+    .actions{position:relative;height:220px}
+    button{
+      border:0;border-radius:14px;padding:14px 30px;font-size:20px;font-weight:600;cursor:pointer;
+      box-shadow:0 8px 22px rgba(0,0,0,.5);
     }
+    #yes{background:linear-gradient(90deg,var(--accent),#ff8aa0);color:#fff}
+    #no{background:transparent;border:2px solid rgba(255,255,255,.25);color:#fff;position:absolute}
 
-    #yes{
-      background:linear-gradient(90deg,var(--accent),#ff8aa0);color:white;
-    }
-    #yes:active{transform:translateY(2px);}
-
-    #no{
-      background:transparent;border:2px solid rgba(255,255,255,0.12);color:#fff;position:absolute;left:20px;top:20px;
-    }
-
-    .no-wrapper{position:absolute;left:0;top:0;right:0;bottom:0}
-
-    .row{display:flex;gap:20px;align-items:center}
-
-    .hint{position:absolute;right:18px;bottom:18px;font-size:13px;opacity:0.7}
-
-    /* overlay shown after yes */
-    .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.6));display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease}
+    .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.85));
+      opacity:0;pointer-events:none;transition:.4s}
     .overlay.show{opacity:1;pointer-events:auto}
-    .popup{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:30px;border-radius:16px;text-align:center;max-width:720px}
-    .popup h2{margin:0 0 8px;font-family:Cinzel,serif;color:var(--accent)}
-    .popup p{margin:0 0 18px;font-size:20px}
+    .popup{background:rgba(0,0,0,.65);padding:32px;border-radius:18px;text-align:center}
+    .popup h2{font-family:Cinzel,serif;color:var(--accent);margin:0 0 8px}
+    .popup p{font-size:22px;margin:0}
 
-    /* hearts */
-    .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-    .heart{position:absolute;width:18px;height:18px;transform:translate(-50%,-50%) rotate(-45deg);}
-    .heart:before,.heart:after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:linear-gradient(180deg,#ff6b81,#ff3055)}
+    .hearts{position:absolute;inset:0;pointer-events:none}
+    .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg)}
+    .heart:before,.heart:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#ff4d6d}
     .heart:before{top:-9px;left:0}
     .heart:after{left:9px;top:0}
 
-    /* small responsive tweaks */
-    @media (max-width:600px){.card{height:620px;padding:22px}.actions{height:240px}.row{flex-direction:column;align-items:stretch}.hint{display:none}}
+    iframe{display:none}
+
+    @media(max-width:600px){.card{height:620px;padding:22px}p{font-size:20px}}
   </style>
 </head>
 <body>
-  <div class="stage">
-    <div class="card" id="card">
-      <h1>Pedido especial</h1>
-      <p class="lead">Tifa, <strong>você aceita namorar comigo?</strong></p>
+  <div class="card">
+    <h1>Pedido especial</h1>
+    <p>Tifa, <strong>você aceita namorar comigo?</strong></p>
 
-      <div class="actions">
-        <div class="row" style="margin-bottom:20px">
-          <button id="yes" class="big">SIM 💖</button>
-          <div style="flex:1"></div>
-        </div>
-
-        <div class="no-wrapper">
-          <!-- o botão NÃO será posicionado dinamicamente dentro deste wrapper -->
-          <button id="no" class="big">NÃO</button>
-        </div>
-
-        <div class="hint">Dica: tente clicar com o dedo — se for no PC, o botão gosta de brincar ;) </div>
-      </div>
-
-      <div class="overlay" id="overlay" aria-hidden="true">
-        <div class="popup">
-          <h2>ebaeba 💕</h2>
-          <p>eu te amo, meu amor!</p>
-          <button id="restart" class="big" style="background:transparent;border:2px solid rgba(255,255,255,0.12);">Fechar</button>
-        </div>
-      </div>
-
-      <div class="hearts" id="hearts"></div>
-
-      <!-- Substitua 'sienna.mp3' pelo caminho/URL do arquivo da música "Sienna" — por motivos de direitos autorais não incluo o arquivo. -->
-      <audio id="music" src="sienna.mp3" preload="auto"></audio>
+    <div class="actions" id="area">
+      <button id="yes">SIM 💖</button>
+      <button id="no">NÃO</button>
     </div>
+
+    <div class="overlay" id="overlay">
+      <div class="popup">
+        <h2>ebaeba 💕</h2>
+        <p>eu te amo, meu amor!</p>
+      </div>
+    </div>
+
+    <div class="hearts" id="hearts"></div>
+
+    <iframe id="yt" width="0" height="0"
+      src="https://www.youtube.com/embed/1rZJwZC9C3s?autoplay=1&loop=1&playlist=1rZJwZC9C3s"
+      allow="autoplay"></iframe>
   </div>
 
   <script>
-    // script responsável pelo comportamento do botão "NÃO" e pelo resultado do "SIM"
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const card = document.getElementById('card');
-      const no = document.getElementById('no');
-      const yes = document.getElementById('yes');
-      const overlay = document.getElementById('overlay');
-      const restart = document.getElementById('restart');
-      const music = document.getElementById('music');
-      const hearts = document.getElementById('hearts');
+    const no = document.getElementById('no');
+    const yes = document.getElementById('yes');
+    const overlay = document.getElementById('overlay');
+    const hearts = document.getElementById('hearts');
+    const area = document.getElementById('area');
+    let firstNo = true;
 
-      // centraliza inicialmente o botão NÃO
-      function placeNoCentered(){
-        const wrapper = no.parentElement;
-        const w = wrapper.clientWidth, h = wrapper.clientHeight;
-        no.style.left = Math.max(12, (w - no.offsetWidth)/2) + 'px';
-        no.style.top = Math.max(12, (h - no.offsetHeight)/2) + 'px';
+    function moveNo(){
+      const w = area.clientWidth - no.offsetWidth;
+      const h = area.clientHeight - no.offsetHeight;
+      no.style.left = Math.random()*w + 'px';
+      no.style.top = Math.random()*h + 'px';
+    }
+
+    no.addEventListener('mouseenter', moveNo);
+    no.addEventListener('touchstart', moveNo);
+    no.addEventListener('click', e => {
+      e.preventDefault();
+      if(firstNo){
+        alert('pensa melhor');
+        firstNo = false;
       }
-
-      function moveNoRandom(){
-        const wrapper = no.parentElement;
-        const w = wrapper.clientWidth, h = wrapper.clientHeight;
-        const bw = no.offsetWidth, bh = no.offsetHeight;
-        // gerar posição que mantenha o botão dentro
-        const x = Math.random() * Math.max(0, w - bw - 8) + 4;
-        const y = Math.random() * Math.max(0, h - bh - 8) + 4;
-        no.style.transition = 'left 0.18s ease, top 0.18s ease';
-        no.style.left = x + 'px';
-        no.style.top = y + 'px';
-      }
-
-      // evita que o botão seja clicado com facilidade
-      no.addEventListener('mouseenter', ()=>{
-        moveNoRandom();
-      });
-      no.addEventListener('click', (e)=>{
-        e.preventDefault();
-        moveNoRandom();
-      });
-
-      // também tapa o foco de teclado se usar tab
-      no.addEventListener('focus', ()=>moveNoRandom());
-
-      // comportamento do SIM
-      yes.addEventListener('click', async ()=>{
-        // anima cor e som — o play acontece em resposta ao clique (gesto do usuário)
-        try{
-          await music.play();
-        }catch(err){
-          // se algo falhar, não trava; o usuário pode ativar o som manualmente
-          console.warn('não foi possível tocar automaticamente:', err);
-        }
-        overlay.classList.add('show');
-        overlay.setAttribute('aria-hidden','false');
-        spawnHearts(18);
-      });
-
-      restart.addEventListener('click', ()=>{
-        overlay.classList.remove('show');
-        overlay.setAttribute('aria-hidden','true');
-        // pausa a música e volta ao início
-        music.pause(); music.currentTime = 0;
-      });
-
-      // cria pequenos coraçõezinhos que sobem
-      function spawnHearts(count){
-        for(let i=0;i<count;i++){
-          const el = document.createElement('div');
-          el.className = 'heart';
-          const startX = Math.random()*100; // percent
-          const startY = 90 + Math.random()*10; // começar perto da base
-          el.style.left = startX + '%';
-          el.style.top = startY + '%';
-          hearts.appendChild(el);
-
-          // anima
-          const dur = 2200 + Math.random()*1600;
-          const endY = -20 - Math.random()*40;
-          el.animate([
-            {transform: 'translateY(0) scale(0.9)', opacity:1},
-            {transform: `translateY(${endY}%) scale(1.1)`, opacity:0}
-          ],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish = ()=>el.remove();
-        }
-      }
-
-      // garante posicionamento inicial
-      window.addEventListener('resize', ()=>placeNoCentered());
-      placeNoCentered();
-
-      // acessibilidade simples: tecla N também brinca
-      document.addEventListener('keydown', (e)=>{
-        if(e.key.toLowerCase()==='n') moveNoRandom();
-      });
+      moveNo();
     });
+
+    yes.addEventListener('click', ()=>{
+      overlay.classList.add('show');
+      spawnHearts(30);
+      document.getElementById('yt').style.display = 'block';
+    });
+
+    function spawnHearts(n){
+      for(let i=0;i<n;i++){
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.style.left = Math.random()*100+'%';
+        h.style.top = '90%';
+        hearts.appendChild(h);
+        h.animate([
+          {transform:'translateY(0) scale(.8)',opacity:1},
+          {transform:'translateY(-120%) scale(1.2)',opacity:0}
+        ],{duration:2000+Math.random()*1500,easing:'ease-out'}).onfinish=()=>h.remove();
+      }
+    }
+
+    moveNo();
   </script>
 </body>
 </html>
