@@ -26,14 +26,14 @@
     .overlay.show{opacity:1;pointer-events:auto}
     .popup{background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.8));padding:40px 46px;border-radius:22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.8)}
     .popup h2{font-family:Cinzel,serif;color:var(--accent);margin:0 0 10px;font-size:32px}
-    .popup p{font-size:24px;margin:0}
+    .popup p{font-size:24px;margin:0 0 16px}
+    .sound{margin-top:10px;background:linear-gradient(90deg,#22c55e,#86efac);color:#062e16}
 
     .hearts,.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
     .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg)}
     .heart:before,.heart:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#ff4d6d}
     .heart:before{top:-9px;left:0}
     .heart:after{left:9px;top:0}
-
     .conf{position:absolute;width:10px;height:14px;border-radius:3px;opacity:.9}
 
     @media(max-width:600px){.card{height:640px;padding:24px}p{font-size:20px}#yes{top:30px}#no{top:120px}}
@@ -55,6 +55,7 @@
       <div class="popup">
         <h2>ebaeba 💕</h2>
         <p>eu te amo, meu amor!</p>
+        <button class="sound" id="soundBtn">🔊 tocar música</button>
       </div>
     </div>
 
@@ -64,38 +65,35 @@
   </div>
 
   <script>
-    const no=document.getElementById('no'),yes=document.getElementById('yes'),overlay=document.getElementById('overlay'),hearts=document.getElementById('hearts'),confetti=document.getElementById('confetti'),area=document.getElementById('area'),music=document.getElementById('music');
-    let firstNo=true;
+    const no=document.getElementById('no'),yes=document.getElementById('yes'),overlay=document.getElementById('overlay'),hearts=document.getElementById('hearts'),confetti=document.getElementById('confetti'),area=document.getElementById('area'),music=document.getElementById('music'),soundBtn=document.getElementById('soundBtn');
+    let firstNo=true, musicOn=false;
 
     function moveNo(){
-      const safeTop=100;
-      const minY=120;
-      const maxY=area.clientHeight-no.offsetHeight-10;
-      const minX=10;
-      const maxX=area.clientWidth-no.offsetWidth-10;
-      let x,y;
-      do{
-        x=Math.random()*maxX+minX;
-        y=Math.random()*(maxY-minY)+minY;
-      }while(Math.abs(y-40)<80);
-      no.style.left=x+'px';
-      no.style.top=y+'px';
+      const minY=120,maxY=area.clientHeight-no.offsetHeight-10,minX=10,maxX=area.clientWidth-no.offsetWidth-10;
+      let x,y;do{ x=Math.random()*maxX+minX; y=Math.random()*(maxY-minY)+minY; }while(y<110);
+      no.style.left=x+'px'; no.style.top=y+'px';
     }
 
     no.addEventListener('mouseenter',moveNo);
     no.addEventListener('touchstart',moveNo);
-    no.addEventListener('click',e=>{e.preventDefault();if(firstNo){alert('pensa melhor');firstNo=false}moveNo()});
+    no.addEventListener('click',e=>{e.preventDefault(); if(firstNo){alert('pensa melhor'); firstNo=false;} moveNo();});
 
     yes.addEventListener('click',()=>{
       overlay.classList.add('show');
-      spawnHearts(36);
-      spawnConfetti(120);
+      spawnHearts(40);
+      spawnConfetti(160);
+    });
+
+    soundBtn.addEventListener('click',()=>{
+      if(musicOn) return;
+      musicOn=true;
       music.innerHTML='<iframe width="0" height="0" src="https://www.youtube.com/embed/1rZJwZC9C3s?autoplay=1&loop=1&playlist=1rZJwZC9C3s" allow="autoplay"></iframe>';
+      soundBtn.textContent='🎵 tocando';
     });
 
     function spawnHearts(n){
       for(let i=0;i<n;i++){
-        const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'%';h.style.top='90%';hearts.appendChild(h);
+        const h=document.createElement('div'); h.className='heart'; h.style.left=Math.random()*100+'%'; h.style.top='90%'; hearts.appendChild(h);
         h.animate([{transform:'translateY(0) scale(.8)',opacity:1},{transform:'translateY(-130%) scale(1.2)',opacity:0}],{duration:2200+Math.random()*1600,easing:'ease-out'}).onfinish=()=>h.remove();
       }
     }
@@ -103,13 +101,9 @@
     function spawnConfetti(n){
       const colors=['#ff4d6d','#ffd166','#7bdff2','#cdb4db','#ffafcc'];
       for(let i=0;i<n;i++){
-        const c=document.createElement('div');c.className='conf';c.style.background=colors[Math.floor(Math.random()*colors.length)];
-        c.style.left=Math.random()*100+'%';c.style.top='-10px';confetti.appendChild(c);
+        const c=document.createElement('div'); c.className='conf'; c.style.background=colors[Math.floor(Math.random()*colors.length)]; c.style.left=Math.random()*100+'%'; c.style.top='-10px'; confetti.appendChild(c);
         const rot=Math.random()*360;
-        c.animate([
-          {transform:`translateY(0) rotate(${rot}deg)`,opacity:1},
-          {transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}
-        ],{duration:3000+Math.random()*2000,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();
+        c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:3000+Math.random()*2000,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();
       }
     }
 
