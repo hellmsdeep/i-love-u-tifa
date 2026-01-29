@@ -4,49 +4,58 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pedido especial</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{--purple:#8b5cf6;--purple2:#a78bfa;--accent:#ff4d6d}
+    :root{--purple:#7c3aed;--purple-2:#a78bfa;--accent:#ff4d6d}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:#000}
     body{display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .stage{position:fixed;inset:0;background-image:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg');background-size:cover;background-position:center;filter:contrast(1.06) saturate(1.04)}
-    .stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.18))}
-    .wrap{position:relative;z-index:2;width:100%;max-width:920px;margin:28px;padding:28px;border-radius:20px;background:rgba(0,0,0,0.14);backdrop-filter:blur(4px);box-shadow:0 40px 120px rgba(0,0,0,0.6)}
-    h1{font-family:Cinzel,serif;margin:0;font-size:34px;text-align:center;color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.7)}
+    .stage{position:fixed;inset:0;background-image:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg');background-size:cover;background-position:center center;filter:contrast(1.08) saturate(1.06);transition:transform .12s linear}
+    .overlay-tint{position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.18));pointer-events:none}
+    .wrap{position:relative;z-index:2;width:100%;max-width:980px;margin:32px;padding:36px;border-radius:24px;background:linear-gradient(180deg,rgba(0,0,0,0.10),rgba(0,0,0,0.04));backdrop-filter:blur(6px);box-shadow:0 40px 120px rgba(0,0,0,0.7)}
+    h1{font-family:Cinzel,serif;margin:0;font-size:34px;text-align:center;color:#fff;text-shadow:0 8px 28px rgba(0,0,0,.65)}
     .question{margin-top:10px;text-align:center;font-size:20px;color:rgba(255,255,255,.96);font-weight:600}
-    .controls{margin-top:26px;display:flex;justify-content:center}
-    .frame{width:360px;border-radius:18px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);position:relative}
-    .btn{display:block;width:100%;padding:14px 0;border-radius:12px;border:0;font-size:20px;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;position:absolute;left:0}
-    #yes{top:12px;background:linear-gradient(90deg,var(--purple),var(--purple2));color:#fff;box-shadow:0 20px 60px rgba(139,92,246,.28)}
+    .controls{margin-top:28px;display:flex;justify-content:center}
+    .frame{width:420px;border-radius:18px;padding:22px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);position:relative}
+    .btn{display:block;width:100%;padding:16px 0;border-radius:14px;border:0;font-size:20px;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;position:absolute;left:0}
+    #yes{top:12px;background:linear-gradient(135deg,var(--purple),var(--purple-2));color:#fff;box-shadow:0 22px 70px rgba(124,58,237,.28);outline:none}
     #yes:active{transform:translateY(2px)}
-    #no{background:rgba(255,255,255,0.06);color:#fff;border:2px solid rgba(255,255,255,0.08)}
+    #yes.pulse{animation:btnPulse 1.6s ease-in-out infinite}
+    @keyframes btnPulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+    #no{top:110px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.08)}
+    .no-catcher{position:absolute;left:0;top:0;width:100%;height:100%;background:transparent}
+    .tooltip{position:absolute;left:50%;transform:translateX(-50%);top:-36px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.7);color:#fff;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s}
+    .tooltip.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
     .effects{position:fixed;inset:0;pointer-events:none;z-index:40}
-    .heart{position:absolute;width:16px;height:16px;transform:rotate(-45deg)}
-    .heart:before,.heart:after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:linear-gradient(180deg,#ff9aa2,#ff4d6d)}
-    .conf{position:absolute;width:12px;height:16px;border-radius:3px}
-    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);opacity:0;pointer-events:none;transition:opacity .28s}
-    .overlay.show{opacity:1;pointer-events:auto}
-    .modal{padding:28px 32px;border-radius:18px;background:rgba(0,0,0,.7);text-align:center}
+    .heart{position:absolute;width:18px;height:18px;transform:rotate(-45deg);will-change:transform,opacity}
+    .heart:before,.heart:after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:linear-gradient(180deg,#ff9aa2,#ff4d6d)}
+    .conf{position:absolute;width:12px;height:16px;border-radius:3px;will-change:transform,opacity}
+    .overlay-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);opacity:0;pointer-events:none;transition:opacity .28s}
+    .overlay-modal.show{opacity:1;pointer-events:auto}
+    .modal{padding:26px 30px;border-radius:16px;background:linear-gradient(180deg,rgba(0,0,0,0.72),rgba(0,0,0,0.64));text-align:center}
     .modal h2{font-family:Cinzel,serif;margin:0 0 8px;color:var(--accent)}
-    .modal p{margin:0;font-size:20px}
-    @media(max-width:520px){.frame{width:86vw;padding:12px}.wrap{padding:18px;border-radius:12px}h1{font-size:28px}.question{font-size:18px}}
+    .modal p{margin:0;font-size:18px}
+    @media(max-width:520px){.frame{width:90vw;padding:14px}.wrap{padding:20px;border-radius:14px}h1{font-size:28px}.question{font-size:18px}}
   </style>
 </head>
 <body>
-  <div class="stage" aria-hidden="true"></div>
+  <div class="stage" id="stage" aria-hidden="true"></div>
+  <div class="overlay-tint" aria-hidden="true"></div>
+
   <div class="wrap" role="main">
     <h1>Pedido especial</h1>
     <div class="question">Tifa, <strong>você aceita namorar comigo?</strong></div>
     <div class="controls">
       <div class="frame" id="frame">
-        <button id="yes" class="btn">SIM</button>
-        <button id="no" class="btn">NÃO</button>
+        <button id="yes" class="btn" aria-label="Sim">SIM</button>
+        <button id="no" class="btn" aria-label="Não" aria-disabled="true" disabled>NÃO</button>
+        <div class="no-catcher" id="noCatcher" aria-hidden="false"></div>
+        <div class="tooltip" id="tooltip">pensa melhor</div>
       </div>
     </div>
   </div>
 
-  <div class="overlay" id="overlay" aria-hidden="true">
+  <div class="overlay-modal" id="overlayModal" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true">
       <h2>ebaeba 💕</h2>
       <p>eu te amo, meu amor!</p>
@@ -60,89 +69,144 @@
   </audio>
 
   <script>
+    const stage = document.getElementById('stage');
     const yes = document.getElementById('yes');
     const no = document.getElementById('no');
     const frame = document.getElementById('frame');
     const effects = document.getElementById('effects');
-    const overlay = document.getElementById('overlay');
+    const overlayModal = document.getElementById('overlayModal');
     const audio = document.getElementById('audio');
+    const noCatcher = document.getElementById('noCatcher');
+    const tooltip = document.getElementById('tooltip');
 
-    let firstNo = true;
     let unlocked = false;
+    let firstAttempt = true;
+    let started = false;
+
+    function parallax(e){
+      const rx = (e.clientX / window.innerWidth - 0.5) * 12;
+      const ry = (e.clientY / window.innerHeight - 0.5) * 8;
+      stage.style.transform = `translate3d(${rx}px, ${ry}px, 0) scale(1.02)`;
+    }
+    window.addEventListener('mousemove', parallax);
+    window.addEventListener('touchmove', (e)=>{ if(e.touches && e.touches[0]) parallax(e.touches[0]); }, {passive:true});
 
     function placeInitial(){
-      const gap = 18;
+      const gap = 14;
       yes.style.width = '100%';
       no.style.width = '100%';
       yes.style.top = gap + 'px';
       const noTop = yes.offsetHeight + gap*2;
       no.style.top = noTop + 'px';
-      // ensure frame height at least fits both
       const needed = no.offsetTop + no.offsetHeight + gap;
       if(frame.clientHeight < needed) frame.style.height = (needed) + 'px';
+      positionNoCatcher();
+      positionTooltip();
+    }
+
+    function positionNoCatcher(){
+      // place catcher exactly over the no button area
+      const rect = no.getBoundingClientRect();
+      const parentRect = frame.getBoundingClientRect();
+      noCatcher.style.left = (rect.left - parentRect.left) + 'px';
+      noCatcher.style.top = (rect.top - parentRect.top) + 'px';
+      noCatcher.style.width = rect.width + 'px';
+      noCatcher.style.height = rect.height + 'px';
+    }
+
+    function positionTooltip(){
+      const rect = no.getBoundingClientRect();
+      const parentRect = frame.getBoundingClientRect();
+      tooltip.style.left = (rect.left - parentRect.left + rect.width/2) + 'px';
+      tooltip.style.top = (rect.top - parentRect.top - 36) + 'px';
     }
 
     function moveNo(){
       const padding = 12;
       const minY = yes.offsetHeight + padding*2;
       const maxY = frame.clientHeight - no.offsetHeight - padding;
-      if(maxY <= minY) return; // nothing to do
-      const y = Math.floor(Math.random()*(maxY - minY + 1)) + minY;
+      if(maxY <= minY) return;
+      let y = Math.floor(Math.random()*(maxY - minY + 1)) + minY;
+      // small horizontal jitter so it doesn't feel stuck
+      const xJitter = Math.floor(Math.random()*8 - 4);
+      no.style.transform = `translateX(${xJitter}px)`;
       no.style.top = y + 'px';
+      // position catcher and tooltip after layout settles
+      requestAnimationFrame(()=>{ positionNoCatcher(); positionTooltip(); });
     }
 
-    function spawnHearts(n){
-      for(let i=0;i<n;i++){
-        const h = document.createElement('div'); h.className='heart';
-        h.style.left = (5 + Math.random()*90) + '%';
-        h.style.top = (60 + Math.random()*35) + '%';
-        effects.appendChild(h);
-        const dur = 2200 + Math.random()*1800;
-        const drift = (Math.random()*80 - 40);
-        h.animate([
-          {transform:'translate(0,0) scale(.8)',opacity:1},
-          {transform:`translate(${drift}px,-160%) scale(1.25)`,opacity:0}
-        ],{duration:dur,easing:'cubic-bezier(.15,.85,.15,1)'}).onfinish = ()=>h.remove();
+    function showTooltip(){
+      tooltip.classList.add('show');
+      setTimeout(()=>tooltip.classList.remove('show'), 1100);
+    }
+
+    function spawnHeartBurst(elem, count){
+      const rect = elem.getBoundingClientRect();
+      const startX = rect.left + rect.width/2;
+      const startY = rect.top + rect.height/2;
+      for(let i=0;i<count;i++){
+        const h = document.createElement('div'); h.className='heart'; effects.appendChild(h);
+        const sx = startX + (Math.random()*80 - 40);
+        const sy = startY + (Math.random()*20 - 20);
+        h.style.left = sx + 'px';
+        h.style.top = sy + 'px';
+        const driftX = (Math.random()*200 - 100);
+        const dur = 1600 + Math.random()*1800;
+        h.animate([{transform:'translate3d(0,0,0) scale(.8)',opacity:1},{transform:`translate3d(${driftX}px,-220%,0) scale(1.35)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.15,.85,.15,1)'}).onfinish = ()=>h.remove();
       }
     }
-    }
 
-    function spawnConfetti(n){
+    function spawnConfettiFrom(elem, n){
+      const rect = elem.getBoundingClientRect();
+      const sx = rect.left + rect.width/2;
+      const sy = rect.top + rect.height/2;
       const colors = ['#8b5cf6','#a78bfa','#ff4d6d','#ffd166','#7bdff2'];
       for(let i=0;i<n;i++){
-        const c = document.createElement('div'); c.className='conf'; c.style.background = colors[Math.floor(Math.random()*colors.length)];
-        c.style.left = Math.random()*100 + '%'; c.style.top = '-6%'; effects.appendChild(c);
-        const rot = Math.random()*360; const dur = 2800 + Math.random()*2000;
+        const c = document.createElement('div'); c.className='conf'; c.style.background = colors[Math.floor(Math.random()*colors.length)]; effects.appendChild(c);
+        const offsetX = (Math.random()*160 - 80);
+        c.style.left = (sx + offsetX) + 'px';
+        c.style.top = sy + 'px';
+        const rot = Math.random()*360; const dur = 2200 + Math.random()*2400;
         c.animate([{transform:`translateY(0) rotate(${rot}deg)`,opacity:1},{transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish = ()=>c.remove();
       }
     }
 
-    async function openCelebration(){
-      overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
-      spawnHearts(120);
-      spawnConfetti(220);
-      setTimeout(()=>spawnHearts(80),300);
-      setTimeout(()=>spawnHearts(60),700);
-      try{ audio.currentTime = 0; await audio.play(); }catch(e){}
+    function vibrate(){ if(navigator.vibrate) navigator.vibrate([60,40,60]); }
+
+    async function celebrate(){
+      overlayModal.classList.add('show'); overlayModal.setAttribute('aria-hidden','false');
+      spawnHeartBurst(yes, 80);
+      spawnConfettiFrom(yes, 90);
+      setTimeout(()=>spawnHeartBurst(yes, 50), 260);
+      setTimeout(()=>spawnConfettiFrom(yes, 60), 480);
+      vibrate();
+      if(!started){
+        started = true;
+        try{
+          audio.currentTime = 0; audio.volume = 0.0; await audio.play();
+          let v = 0.0; const step = 0.06; const iv = setInterval(()=>{ v = Math.min(1, v + step); audio.volume = v; if(v>=1) clearInterval(iv); }, 120);
+          yes.classList.add('pulse'); setTimeout(()=>yes.classList.remove('pulse'), 1600);
+        }catch(e){ }
+      }
     }
-    }
 
-    function unlockAudio(){
-      if(unlocked) return; unlocked = true;
-      audio.muted = true;
-      audio.play().then(()=>{ setTimeout(()=>{ audio.muted = false; }, 250); }).catch(()=>{});
-      document.removeEventListener('pointerdown', unlockAudio);
-    }
-    document.addEventListener('pointerdown', unlockAudio, {passive:true});
+    function unlockAudioOnFirstTouch(){ if(unlocked) return; unlocked = true; audio.muted = true; audio.play().then(()=>{ setTimeout(()=>{ audio.muted = false; }, 200); }).catch(()=>{}); document.removeEventListener('pointerdown', unlockAudioOnFirstTouch); }
+    document.addEventListener('pointerdown', unlockAudioOnFirstTouch, {passive:true});
 
-    no.addEventListener('mouseenter', moveNo);
-    no.addEventListener('touchstart', e=>{ e.preventDefault(); moveNo(); }, {passive:false});
-    no.addEventListener('click', e=>{ e.preventDefault(); if(firstNo){ alert('pensa melhor'); firstNo = false; } moveNo(); });
+    // make 'no' impossible: catcher intercepts all interactions and teleports the real button
+    noCatcher.addEventListener('mouseenter', (e)=>{ if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); });
+    noCatcher.addEventListener('touchstart', (e)=>{ e.preventDefault(); if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); }, {passive:false});
+    noCatcher.addEventListener('click', (e)=>{ e.preventDefault(); if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); });
 
-    yes.addEventListener('click', ()=>{ openCelebration(); });
+    // still keep keyboard safety: prevent focus/click on the disabled button
+    no.addEventListener('click', (e)=>{ e.preventDefault(); });
 
-    window.addEventListener('load', ()=>{ placeInitial(); setTimeout(()=>{ moveNo(); },120); });
+    yes.addEventListener('click', (e)=>{ e.preventDefault(); celebrate(); });
+    yes.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); celebrate(); } });
+
+    window.addEventListener('load', ()=>{ placeInitial(); setTimeout(()=>{ moveNo(); }, 120); });
     window.addEventListener('resize', ()=>{ placeInitial(); });
+
   </script>
 </body>
 </html>
