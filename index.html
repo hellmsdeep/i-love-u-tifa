@@ -193,16 +193,23 @@
     function unlockAudioOnFirstTouch(){ if(unlocked) return; unlocked = true; audio.muted = true; audio.play().then(()=>{ setTimeout(()=>{ audio.muted = false; }, 200); }).catch(()=>{}); document.removeEventListener('pointerdown', unlockAudioOnFirstTouch); }
     document.addEventListener('pointerdown', unlockAudioOnFirstTouch, {passive:true});
 
-    // make 'no' impossible: catcher intercepts all interactions and teleports the real button
-    noCatcher.addEventListener('mouseenter', (e)=>{ if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); });
+    // make 'no' impossible (simpler + stable)
+    function handleNoAttempt(e){
+      e.preventDefault();
+      if(firstAttempt){ showTooltip(); firstAttempt=false; }
+      moveNo();
+    }
+    noCatcher.addEventListener('pointerenter', handleNoAttempt);
+    noCatcher.addEventListener('pointerdown', handleNoAttempt);
+    noCatcher.addEventListener('click', handleNoAttempt);
     noCatcher.addEventListener('touchstart', (e)=>{ e.preventDefault(); if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); }, {passive:false});
     noCatcher.addEventListener('click', (e)=>{ e.preventDefault(); if(firstAttempt){ showTooltip(); firstAttempt=false; } moveNo(); });
 
     // still keep keyboard safety: prevent focus/click on the disabled button
     no.addEventListener('click', (e)=>{ e.preventDefault(); });
 
-    yes.addEventListener('click', (e)=>{ e.preventDefault(); celebrate(); });
-    yes.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); celebrate(); } });
+    yes.addEventListener('pointerdown',(e)=>{ e.preventDefault(); celebrate(); }); celebrate(); });
+    yes.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); celebrate(); } }); celebrate(); } });
 
     window.addEventListener('load', ()=>{ placeInitial(); setTimeout(()=>{ moveNo(); }, 120); });
     window.addEventListener('resize', ()=>{ placeInitial(); });
