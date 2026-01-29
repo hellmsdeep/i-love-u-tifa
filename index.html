@@ -2,173 +2,174 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pedido Especial 💜</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pedido especial</title>
 
   <!-- FONTES -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
 
   <style>
-    /* =====================================================
+    /* ======================================================
        VARIÁVEIS GLOBAIS
     ====================================================== */
     :root{
       --purple:#7c3aed;
-      --purple-light:#9f7bff;
-      --pink:#ff4d6d;
-      --white:#ffffff;
-      --bg-dark:rgba(0,0,0,.35);
+      --purple-2:#9f7bff;
+      --accent:#ff4d6d;
+      --bg-dark:rgba(0,0,0,.55);
     }
 
-    /* =====================================================
-       RESET + BASE
+    /* RESET */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:#000}
+    body{overflow:hidden}
+
+    /* ======================================================
+       FUNDO / PALCO
     ====================================================== */
-    *{
-      box-sizing:border-box;
-      padding:0;
-      margin:0;
-    }
-
-    html,body{
-      width:100%;
-      height:100%;
-      font-family:Inter,system-ui,Arial,sans-serif;
-      background:#000;
-      overflow:hidden;
-    }
-
-    body{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    /* =====================================================
-       FUNDO
-    ====================================================== */
-    .background{
+    .stage{
       position:fixed;
       inset:0;
       background-image:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg');
       background-size:cover;
       background-position:center;
-      transform:scale(1.05);
-      transition:transform .2s ease;
-      z-index:0;
+      transform:scale(1.03);
+      transition:transform .15s ease-out;
     }
 
-    /* leve realce sem esconder imagem */
-    .background::after{
+    .stage::after{
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.25));
+      background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.15));
     }
 
-    /* =====================================================
+    /* ======================================================
        CONTAINER PRINCIPAL
     ====================================================== */
-    .container{
+    .wrap{
       position:relative;
       z-index:2;
-      max-width:760px;
       width:100%;
-      padding:28px;
-      border-radius:18px;
-      background:rgba(0,0,0,.18);
-      backdrop-filter:blur(3px);
-      box-shadow:0 30px 80px rgba(0,0,0,.45);
+      max-width:820px;
+      margin:28px auto;
+      padding:22px;
+      border-radius:16px;
+      background:rgba(0,0,0,0.08);
+      backdrop-filter:blur(2px);
       text-align:center;
     }
 
     h1{
       font-family:Cinzel,serif;
-      color:var(--white);
-      font-size:32px;
-      margin-bottom:10px;
-      text-shadow:0 8px 20px rgba(0,0,0,.6);
+      margin:0;
+      font-size:30px;
+      color:#fff;
+      text-shadow:0 6px 18px rgba(0,0,0,.6);
     }
 
     .question{
-      color:rgba(255,255,255,.95);
-      font-size:18px;
-      font-weight:700;
-      margin-bottom:26px;
+      margin-top:10px;
+      font-size:17px;
+      color:#fff;
+      font-weight:600;
     }
 
-    /* =====================================================
-       BOTÕES
+    /* ======================================================
+       ÁREA DOS BOTÕES
     ====================================================== */
-    .buttons-wrapper{
+    .controls{
+      margin-top:22px;
       display:flex;
       justify-content:center;
     }
 
-    .buttons-box{
+    .frame{
+      width:360px;
+      height:260px; /* ÁREA MAIOR PARA O NÃO SE MEXER */
       position:relative;
-      width:320px;
-      height:160px;
+      border-radius:14px;
+      padding:14px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      overflow:hidden;
     }
 
     .btn{
       position:absolute;
-      left:0;
       width:100%;
+      left:0;
       padding:12px 0;
       border-radius:12px;
-      border:none;
+      border:0;
       font-size:18px;
-      font-weight:900;
+      font-weight:800;
       cursor:pointer;
-      transition:transform .15s ease, box-shadow .15s ease;
+      transition:transform .15s ease,box-shadow .15s ease;
     }
 
-    #btnYes{
-      top:0;
-      background:linear-gradient(135deg,var(--purple),var(--purple-light));
+    #yes{
+      top:12px;
+      background:linear-gradient(135deg,var(--purple),var(--purple-2));
       color:#fff;
-      box-shadow:0 20px 50px rgba(124,58,237,.35);
+      box-shadow:0 20px 50px rgba(124,58,237,.3);
     }
 
-    #btnYes:active{
-      transform:translateY(2px);
-    }
+    #yes:active{transform:translateY(1px)}
 
-    #btnNo{
-      top:80px;
-      background:rgba(255,255,255,.06);
+    #no{
+      top:90px;
+      background:rgba(255,255,255,0.06);
       color:#fff;
-      border:2px solid rgba(255,255,255,.12);
+      border:2px solid rgba(255,255,255,0.08);
     }
 
-    /* =====================================================
-       TOAST
+    /* ======================================================
+       TOAST DO NÃO
     ====================================================== */
     .toast{
       position:absolute;
-      top:-40px;
-      left:50%;
-      transform:translateX(-50%);
-      padding:8px 14px;
-      background:rgba(0,0,0,.75);
+      padding:8px 12px;
+      background:rgba(0,0,0,0.7);
       color:#fff;
+      border-radius:8px;
       font-weight:700;
       font-size:13px;
-      border-radius:8px;
       opacity:0;
       pointer-events:none;
-      transition:opacity .2s ease, transform .2s ease;
+      transition:.2s ease;
     }
 
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(-6px);
-    }
+    .toast.show{opacity:1}
 
-    /* =====================================================
-       MODAL
+    /* ======================================================
+       EFEITOS VISUAIS
     ====================================================== */
-    .modal-overlay{
+    .effects{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+    .heart{
+      position:absolute;
+      width:14px;
+      height:14px;
+      transform:rotate(-45deg);
+    }
+
+    .heart::before,.heart::after{
+      content:"";
+      position:absolute;
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#ff9aa2,#ff4d6d);
+    }
+
+    .heart::after{left:7px}
+    .heart::before{top:-7px}
+
+    /* ======================================================
+       MODAL FINAL
+    ====================================================== */
+    .overlay{
       position:fixed;
       inset:0;
       display:flex;
@@ -177,217 +178,139 @@
       background:rgba(0,0,0,.65);
       opacity:0;
       pointer-events:none;
-      transition:opacity .3s ease;
-      z-index:10;
+      transition:.3s ease;
+      z-index:100;
     }
 
-    .modal-overlay.show{
-      opacity:1;
-      pointer-events:auto;
-    }
+    .overlay.show{opacity:1;pointer-events:auto}
 
     .modal{
-      padding:26px 30px;
-      border-radius:18px;
-      background:rgba(0,0,0,.85);
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .modal p{
-      font-size:24px;
-      font-weight:900;
+      background:var(--bg-dark);
+      padding:22px 26px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.05);
       color:#fff;
+      font-size:22px;
+      font-weight:800;
     }
 
-    /* =====================================================
-       EFEITOS
-    ====================================================== */
-    .effects{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:20;
-    }
-
-    .heart{
-      position:absolute;
-      width:16px;
-      height:16px;
-      transform:rotate(-45deg);
-    }
-
-    .heart::before,
-    .heart::after{
-      content:'';
-      position:absolute;
-      width:16px;
-      height:16px;
-      background:linear-gradient(180deg,#ff9aa2,var(--pink));
-      border-radius:50%;
-    }
-
-    .heart::before{top:-8px;left:0;}
-    .heart::after{left:8px;top:0;}
-
-    .confetti{
-      position:absolute;
-      width:10px;
-      height:14px;
-      border-radius:3px;
-    }
-
-    /* =====================================================
+    /* ======================================================
        RESPONSIVO
     ====================================================== */
     @media(max-width:520px){
+      .frame{width:90vw;height:280px}
       h1{font-size:24px}
-      .question{font-size:16px}
-      .buttons-box{width:90vw}
     }
   </style>
 </head>
 <body>
 
-  <div class="background" id="background"></div>
+  <!-- FUNDO -->
+  <div class="stage" id="stage"></div>
 
-  <div class="container">
+  <!-- CONTEÚDO -->
+  <div class="wrap">
     <h1>Pedido especial</h1>
     <div class="question">Tifa, <strong>você aceita namorar comigo?</strong></div>
 
-    <div class="buttons-wrapper">
-      <div class="buttons-box" id="buttonsBox">
-        <button class="btn" id="btnYes">SIM</button>
-        <button class="btn" id="btnNo">NÃO</button>
+    <div class="controls">
+      <div class="frame" id="frame">
+        <button id="yes" class="btn">SIM</button>
+        <button id="no" class="btn">NÃO</button>
         <div class="toast" id="toast">pensa melhor</div>
       </div>
     </div>
   </div>
 
-  <div class="modal-overlay" id="modal">
-    <div class="modal">
-      <p>ebaeba eu te amo</p>
-    </div>
+  <!-- MODAL -->
+  <div class="overlay" id="overlay">
+    <div class="modal">ebaeba eu te amo 💜</div>
   </div>
 
+  <!-- EFEITOS -->
   <div class="effects" id="effects"></div>
 
-  <audio id="audio" preload="auto" playsinline loop>
+  <!-- ÁUDIO -->
+  <audio id="audio" loop preload="auto">
     <source src="sienna.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- ======================================================
+       SCRIPT PRINCIPAL (COMPLEXO E ESTÁVEL)
+  ====================================================== -->
   <script>
-    /* =====================================================
-       REFERÊNCIAS
-    ====================================================== */
-    const bg = document.getElementById('background');
-    const yes = document.getElementById('btnYes');
-    const no = document.getElementById('btnNo');
-    const box = document.getElementById('buttonsBox');
+    const stage = document.getElementById('stage');
+    const frame = document.getElementById('frame');
+    const yes = document.getElementById('yes');
+    const no = document.getElementById('no');
     const toast = document.getElementById('toast');
-    const modal = document.getElementById('modal');
+    const overlay = document.getElementById('overlay');
     const effects = document.getElementById('effects');
     const audio = document.getElementById('audio');
 
-    let noFirst = true;
-    let started = false;
-    let audioUnlocked = false;
+    let firstNo = true;
+    let unlocked = false;
 
-    /* =====================================================
-       PARALLAX
-    ====================================================== */
-    function parallax(e){
-      const x = (e.clientX / window.innerWidth - 0.5) * 10;
-      const y = (e.clientY / window.innerHeight - 0.5) * 6;
-      bg.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
-    }
-    window.addEventListener('mousemove', parallax);
+    /* PARALLAX */
+    window.addEventListener('mousemove', e =>{
+      const x = (e.clientX/window.innerWidth - .5)*8;
+      const y = (e.clientY/window.innerHeight - .5)*6;
+      stage.style.transform = `translate(${x}px,${y}px) scale(1.04)`;
+    });
 
-    /* =====================================================
-       ÁUDIO
-    ====================================================== */
-    function unlockAudio(){
-      if(audioUnlocked) return;
-      audioUnlocked = true;
-      audio.muted = true;
-      audio.play().then(()=>{
-        setTimeout(()=>{audio.muted=false},200);
-      }).catch(()=>{});
-      document.removeEventListener('pointerdown', unlockAudio);
-    }
-    document.addEventListener('pointerdown', unlockAudio, {passive:true});
+    /* NÃO FUGIR – ÁREA MAIOR */
+    no.addEventListener('mouseenter', ()=>{
+      const areaW = frame.clientWidth - no.clientWidth - 20;
+      const areaH = frame.clientHeight - no.clientHeight - 20;
+      const x = Math.random()*areaW;
+      const y = Math.random()*areaH;
+      no.style.left = x+'px';
+      no.style.top = y+'px';
 
-    /* =====================================================
-       EFEITOS
-    ====================================================== */
-    function spawnHearts(x,y,n){
-      for(let i=0;i<n;i++){
-        const h=document.createElement('div');
-        h.className='heart';
-        effects.appendChild(h);
-        h.style.left=x+'px';
-        h.style.top=y+'px';
-        const dx=(Math.random()*240-120);
-        const dur=1400+Math.random()*1400;
-        h.animate([
-          {transform:'translate(0,0) scale(.8)',opacity:1},
-          {transform:`translate(${dx}px,-180%) scale(1.2)`,opacity:0}
-        ],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish=()=>h.remove();
-      }
-    }
-
-    function spawnConfetti(x,y,n){
-      const colors=['#7c3aed','#9f7bff','#ff4d6d','#ffd166','#7bdff2'];
-      for(let i=0;i<n;i++){
-        const c=document.createElement('div');
-        c.className='confetti';
-        c.style.background=colors[Math.floor(Math.random()*colors.length)];
-        effects.appendChild(c);
-        c.style.left=x+'px';
-        c.style.top=y+'px';
-        const rot=Math.random()*360;
-        const dur=1600+Math.random()*1800;
-        c.animate([
-          {transform:`translateY(0) rotate(${rot}deg)`,opacity:1},
-          {transform:`translateY(120vh) rotate(${rot+720}deg)`,opacity:0}
-        ],{duration:dur,easing:'cubic-bezier(.2,.6,.2,1)'}).onfinish=()=>c.remove();
-      }
-    }
-
-    /* =====================================================
-       NÃO FOGE
-    ====================================================== */
-    function moveNo(){
-      const maxX = box.clientWidth - no.offsetWidth;
-      const maxY = box.clientHeight - no.offsetHeight;
-      no.style.left = Math.random()*maxX+'px';
-      no.style.top = Math.random()*maxY+'px';
-    }
-
-    no.addEventListener('pointerenter',()=>{
-      if(noFirst){
-        noFirst=false;
+      if(firstNo){
+        firstNo=false;
+        toast.style.left = (x+no.clientWidth/2)+'px';
+        toast.style.top = (y-30)+'px';
         toast.classList.add('show');
         setTimeout(()=>toast.classList.remove('show'),1200);
       }
-      moveNo();
     });
 
-    /* =====================================================
-       SIM
-    ====================================================== */
-    yes.addEventListener('pointerdown',()=>{
-      if(started) return;
-      started=true;
-      modal.classList.add('show');
-      const r=yes.getBoundingClientRect();
-      const cx=r.left+r.width/2;
-      const cy=r.top+r.height/2;
-      spawnHearts(cx,cy,120);
-      spawnConfetti(cx,cy,160);
-      audio.currentTime=0;
-      audio.play().catch(()=>{});
+    /* SIM */
+    yes.addEventListener('click', ()=>{
+      overlay.classList.add('show');
+      playMusic();
+      explodeHearts();
     });
 
+    /* CORAÇÕES */
+    function explodeHearts(){
+      for(let i=0;i<80;i++){
+        const h=document.createElement('div');
+        h.className='heart';
+        effects.appendChild(h);
+        const x=Math.random()*window.innerWidth;
+        const y=window.innerHeight-20;
+        h.style.left=x+'px';
+        h.style.top=y+'px';
+        h.animate([
+          {transform:'translateY(0) scale(1)',opacity:1},
+          {transform:`translateY(-${300+Math.random()*400}px) scale(1.3)`,opacity:0}
+        ],{duration:2000+Math.random()*1000,easing:'ease-out'}).onfinish=()=>h.remove();
+      }
+    }
+
+    /* ÁUDIO */
+    function playMusic(){
+      if(unlocked) return;
+      unlocked=true;
+      audio.muted=true;
+      audio.play().then(()=>{
+        setTimeout(()=>audio.muted=false,200);
+      }).catch(()=>{});
+    }
+
+    document.addEventListener('pointerdown', playMusic,{once:true});
   </script>
 </body>
 </html>
