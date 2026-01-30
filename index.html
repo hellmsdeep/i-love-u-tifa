@@ -1,148 +1,274 @@
 <!DOCTYPE html>
-<!-- INDEX.HTML FINAL – PEDIDO DE NAMORO NÍVEL ABSURDO -->
-<!-- Código propositalmente extenso (~1000 linhas) para estabilidade, efeitos e organização -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tifa 💜</title>
+<title>Pedido Especial 💜</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
 <style>
-/* ================= RESET ================= */
+/* =====================================================
+   RESET E BASE
+===================================================== */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;font-family:Inter,system-ui;background:#000;overflow:hidden}
 
-/* ================= FUNDO ================= */
-#bg{position:fixed;inset:0;background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover no-repeat;transform:scale(1.05);filter:saturate(1.1) contrast(1.05)}
-#overlay{position:fixed;inset:0;background:rgba(0,0,0,0.15)}
+/* =====================================================
+   FUNDO
+===================================================== */
+#background{
+  position:fixed;
+  inset:0;
+  background:url('https://i.pinimg.com/736x/ea/58/b9/ea58b92372ca0cd6d366aa2984765096.jpg') center/cover no-repeat;
+  transform:scale(1.08);
+  filter:saturate(1.15) contrast(1.05);
+  will-change:transform;
+}
+#bg-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.18)}
 
-/* ================= CONTAINER ================= */
+/* =====================================================
+   CONTAINER PRINCIPAL
+===================================================== */
 #app{position:relative;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
-#card{background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);padding:32px;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);text-align:center;width:360px;max-width:92vw}
+#card{
+  width:380px;
+  max-width:92vw;
+  background:rgba(0,0,0,0.38);
+  backdrop-filter:blur(6px);
+  border-radius:20px;
+  padding:34px 26px 38px;
+  box-shadow:0 40px 120px rgba(0,0,0,.7);
+  text-align:center;
+}
 
-h1{color:#fff;font-size:26px;margin-bottom:14px}
-p{color:#fff;font-size:16px;margin-bottom:22px}
+h1{color:#fff;font-size:28px;margin-bottom:12px}
+#question{color:#fff;font-size:17px;margin-bottom:28px}
 
-/* ================= BOTÕES ================= */
-#zone{position:relative;width:100%;height:260px}
-button{position:absolute;width:200px;height:46px;border-radius:12px;border:none;font-size:18px;font-weight:800;cursor:pointer}
-#yes{left:50%;top:20px;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#9f7bff);color:#fff;box-shadow:0 20px 40px rgba(124,58,237,.5)}
-#no{left:50%;top:120px;transform:translateX(-50%);background:rgba(255,255,255,0.08);color:#fff;border:2px solid rgba(255,255,255,.15)}
+/* =====================================================
+   ÁREA DOS BOTÕES
+===================================================== */
+#arena{position:relative;width:100%;height:280px}
+button{
+  position:absolute;
+  width:210px;
+  height:48px;
+  border-radius:14px;
+  border:none;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  user-select:none;
+}
+#yes{
+  left:50%;
+  top:24px;
+  transform:translateX(-50%);
+  background:linear-gradient(135deg,#7c3aed,#9f7bff);
+  color:#fff;
+  box-shadow:0 24px 60px rgba(124,58,237,.55);
+}
+#yes:active{transform:translateX(-50%) scale(.97)}
 
-/* ================= TEXTO FINAL ================= */
-#final{display:none;position:fixed;inset:0;z-index:10;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
-#final h2{color:#fff;font-size:32px}
+#no{
+  left:50%;
+  top:130px;
+  transform:translateX(-50%);
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  border:2px solid rgba(255,255,255,.18);
+}
 
-/* ================= CORAÇÕES ================= */
-.heart{position:fixed;width:14px;height:14px;background:#ff4d6d;transform:rotate(45deg)}
-.heart::before,.heart::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#ff4d6d}
+#toast{
+  position:absolute;
+  left:50%;
+  top:88px;
+  transform:translateX(-50%);
+  padding:8px 14px;
+  border-radius:10px;
+  background:rgba(0,0,0,.7);
+  color:#fff;
+  font-weight:700;
+  font-size:13px;
+  opacity:0;
+  transition:opacity .25s,transform .25s;
+  pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+
+/* =====================================================
+   TELA FINAL
+===================================================== */
+#final{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.75);
+  z-index:10;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .4s;
+}
+#final.show{opacity:1;pointer-events:auto}
+#final h2{color:#fff;font-size:34px}
+
+/* =====================================================
+   CORAÇÕES
+===================================================== */
+.heart{
+  position:fixed;
+  width:14px;
+  height:14px;
+  background:#ff4d6d;
+  transform:rotate(45deg);
+}
+.heart::before,.heart::after{
+  content:'';
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#ff4d6d;
+}
 .heart::before{left:-7px}
 .heart::after{top:-7px}
 
-/* ================= CONFETE ================= */
+/* =====================================================
+   CONFETE
+===================================================== */
 .conf{position:fixed;width:10px;height:14px;border-radius:3px}
+
+@media(max-width:520px){
+  #card{padding:26px 18px}
+  h1{font-size:24px}
+}
 </style>
 </head>
 <body>
-<div id="bg"></div>
-<div id="overlay"></div>
+<div id="background"></div>
+<div id="bg-overlay"></div>
 
 <div id="app">
   <div id="card">
     <h1>Tifa</h1>
-    <p>você aceita namorar comigo?</p>
-    <div id="zone">
+    <div id="question">você aceita namorar comigo?</div>
+    <div id="arena">
       <button id="yes">SIM</button>
       <button id="no">NÃO</button>
+      <div id="toast">pensa melhor</div>
     </div>
   </div>
 </div>
 
 <div id="final"><h2>ebaeba eu te amo 💜</h2></div>
 
-<audio id="music" preload="auto" loop>
+<audio id="music" preload="auto" loop playsinline>
   <source src="sienna.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-/* ================= VARIÁVEIS ================= */
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+const bg=document.getElementById('background')
 const noBtn=document.getElementById('no')
 const yesBtn=document.getElementById('yes')
-const zone=document.getElementById('zone')
+const toast=document.getElementById('toast')
 const final=document.getElementById('final')
 const music=document.getElementById('music')
 
 let unlocked=false
+let firstNo=true
 
-/* ================= AUDIO MOBILE ================= */
+/* =====================================================
+   DESBLOQUEIO DE ÁUDIO (CELULAR)
+===================================================== */
 document.addEventListener('pointerdown',()=>{
- if(unlocked)return
- unlocked=true
- music.muted=true
- music.play().then(()=>{music.muted=false})
-})
+  if(unlocked) return
+  unlocked=true
+  music.muted=true
+  music.play().then(()=>{
+    setTimeout(()=>{music.muted=false},150)
+  }).catch(()=>{})
+},{once:true})
 
-/* ================= NÃO IMPOSSÍVEL ================= */
+/* =====================================================
+   NÃO IMPOSSÍVEL – TELA INTEIRA
+===================================================== */
 function moveNo(){
- const maxX=window.innerWidth-noBtn.offsetWidth
- const maxY=window.innerHeight-noBtn.offsetHeight
- const x=Math.random()*maxX
- const y=Math.random()*maxY
- noBtn.style.left=x+'px'
- noBtn.style.top=y+'px'
+  const pad=20
+  const maxX=window.innerWidth-noBtn.offsetWidth-pad
+  const maxY=window.innerHeight-noBtn.offsetHeight-pad
+  const x=Math.random()*maxX+pad
+  const y=Math.random()*maxY+pad
+  noBtn.style.left=x+'px'
+  noBtn.style.top=y+'px'
 }
 
-noBtn.addEventListener('mouseenter',moveNo)
+noBtn.addEventListener('mouseenter',()=>{
+  if(firstNo){
+    firstNo=false
+    toast.classList.add('show')
+    setTimeout(()=>toast.classList.remove('show'),1200)
+  }
+  moveNo()
+})
 noBtn.addEventListener('touchstart',moveNo)
 noBtn.addEventListener('click',e=>{e.preventDefault();moveNo()})
 
-/* ================= SIM ================= */
+/* =====================================================
+   SIM – FINAL DEFINITIVO
+===================================================== */
 yesBtn.addEventListener('click',()=>{
- final.style.display='flex'
- music.currentTime=0
- music.play()
- for(let i=0;i<120;i++)spawnHeart()
- for(let i=0;i<120;i++)spawnConfetti()
+  final.classList.add('show')
+  music.currentTime=0
+  music.play().catch(()=>{})
+  for(let i=0;i<160;i++)spawnHeart()
+  for(let i=0;i<160;i++)spawnConfetti()
 })
 
-/* ================= EFEITOS ================= */
+/* =====================================================
+   EFEITOS
+===================================================== */
 function spawnHeart(){
- const h=document.createElement('div')
- h.className='heart'
- document.body.appendChild(h)
- const x=Math.random()*window.innerWidth
- const y=window.innerHeight+20
- h.style.left=x+'px'
- h.style.top=y+'px'
- h.animate([
-  {transform:'translateY(0) scale(1)',opacity:1},
-  {transform:'translateY(-120vh) scale(1.4)',opacity:0}
- ],{duration:2000+Math.random()*2000})
- setTimeout(()=>h.remove(),4000)
+  const h=document.createElement('div')
+  h.className='heart'
+  document.body.appendChild(h)
+  const x=Math.random()*window.innerWidth
+  const y=window.innerHeight+30
+  h.style.left=x+'px'
+  h.style.top=y+'px'
+  h.animate([
+    {transform:'translateY(0) scale(1)',opacity:1},
+    {transform:'translateY(-120vh) scale(1.5)',opacity:0}
+  ],{duration:2200+Math.random()*2200,easing:'ease-out'})
+  setTimeout(()=>h.remove(),4800)
 }
 
 function spawnConfetti(){
- const c=document.createElement('div')
- c.className='conf'
- const colors=['#7c3aed','#ff4d6d','#ffd166','#9f7bff']
- c.style.background=colors[Math.floor(Math.random()*colors.length)]
- document.body.appendChild(c)
- const x=Math.random()*window.innerWidth
- const y=-20
- c.style.left=x+'px'
- c.style.top=y+'px'
- c.animate([
-  {transform:'translateY(0) rotate(0deg)',opacity:1},
-  {transform:'translateY(120vh) rotate(720deg)',opacity:0}
- ],{duration:2500+Math.random()*2000})
- setTimeout(()=>c.remove(),5000)
+  const c=document.createElement('div')
+  c.className='conf'
+  const colors=['#7c3aed','#9f7bff','#ff4d6d','#ffd166','#7bdff2']
+  c.style.background=colors[Math.floor(Math.random()*colors.length)]
+  document.body.appendChild(c)
+  const x=Math.random()*window.innerWidth
+  const y=-20
+  c.style.left=x+'px'
+  c.style.top=y+'px'
+  c.animate([
+    {transform:'translateY(0) rotate(0deg)',opacity:1},
+    {transform:'translateY(120vh) rotate(720deg)',opacity:0}
+  ],{duration:2600+Math.random()*2400,easing:'linear'})
+  setTimeout(()=>c.remove(),5200)
 }
 
-/* ================= PARALLAX ================= */
+/* =====================================================
+   PARALLAX FUNDO
+===================================================== */
 document.addEventListener('mousemove',e=>{
- const x=(e.clientX/window.innerWidth-0.5)*10
- const y=(e.clientY/window.innerHeight-0.5)*10
- document.getElementById('bg').style.transform=`translate(${x}px,${y}px) scale(1.08)`
+  const x=(e.clientX/window.innerWidth-0.5)*12
+  const y=(e.clientY/window.innerHeight-0.5)*12
+  bg.style.transform=`translate(${x}px,${y}px) scale(1.1)`
 })
 </script>
 </body>
